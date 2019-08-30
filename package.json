@@ -1,0 +1,25 @@
+{
+  "name": "h4p-backend",
+  "version": "1.0.0",
+  "description": "Hero for Pets - Repositorio backend para un aplicativo dedicado a la mejora de adopción de mascotas.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app-backend/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alejandrorossi/H4P-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alejandrorossi/H4P-backend/issues"
+  },
+  "homepage": "https://github.com/alejandrorossi/H4P-backend#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
