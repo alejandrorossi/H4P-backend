@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/alejandrorossi/H4P-backend#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.6.11"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
