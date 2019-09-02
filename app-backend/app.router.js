@@ -6,7 +6,8 @@ const
 // Imports controllers
 const 
   userCtrl = require('./controller/user.controller'),
-  petCtrl = require('./controller/pet.controller');
+  petCtrl = require('./controller/pet.controller'),
+  publicationCtrl = require('./controller/publication.controller');
 
 // Routes
 // USER
@@ -24,5 +25,12 @@ router.post('/pet', petCtrl.createPet);
 router.get('/pet/:id', petCtrl.getPet);
 router.put('/pet/:id', petCtrl.editPet);
 router.delete('/pet/:id', petCtrl.deletePet);
+
+// PUBLICATION
+router.get('/publication', publicationCtrl.getPublications);
+router.post('/publication', publicationCtrl.createPublication);
+router.get('/publication/:id', publicationCtrl.getPublication);
+router.put('/publication/:id', publicationCtrl.editPublication);
+router.delete('/publication/:id', publicationCtrl.deletePublication); 
 
 module.exports = router;

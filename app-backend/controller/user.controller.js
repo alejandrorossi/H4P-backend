@@ -5,7 +5,6 @@ const User = require('../model/db/user.db');
 const
   bcrypt  =  require('bcryptjs')//module to hash password
 
-
 const ApiResponse = require('../model/api.response');
 
 const userCtrl = {}
@@ -58,6 +57,9 @@ userCtrl.getUserForUsernamePassword = async (req, res) => {
   //Validate password
   const result = bcrypt.compareSync(req.body.password, user.password);
   if(!result) return res.json(new ApiResponse('Contraseña invalida', 400));
+  
+  //Save user in session
+  req.session.user_id = user._id;
 
   var r = new ApiResponse('Usuario logueado', 200, user);
   res.json(r);

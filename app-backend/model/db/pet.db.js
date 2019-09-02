@@ -12,7 +12,7 @@ var pet_schema = new Schema({
   surname: {
     type: String,
     require: false,
-    default: null,
+    default: undefined,
     maxlength:[15,"Apellido muy largo"]
   },
   age: {
@@ -33,7 +33,7 @@ var pet_schema = new Schema({
   characteristics:{
     type: String,
     require: false,
-    default: null,
+    default: undefined,
     max: [255, "La cantidad de carácteres maximo es de 255"]
   },
   createdDate: { 

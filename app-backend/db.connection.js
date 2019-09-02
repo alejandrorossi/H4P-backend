@@ -1,5 +1,6 @@
 //Module for data base connection.
-const mongoose = require('mongoose'),
+const 
+  mongoose = require('mongoose'),
   config = require('./config');
 
 //Direction for connection.
