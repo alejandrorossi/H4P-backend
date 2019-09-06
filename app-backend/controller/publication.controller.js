@@ -1,4 +1,6 @@
-const Publication = require('../model/db/publication.db');
+const  
+  Publication = require('../model/db/publication.db'),
+  User =  require('../model/db/user.db');
 
 const ApiResponse = require('../model/api.response');
 
@@ -32,5 +34,20 @@ publicationCtrl.editPublication = async (req, res) => {
 
 publicationCtrl.deletePublication = async (req, res) => {
 };
+
+//Add postulant
+publicationCtrl.addPostulant = async (req, res) => {
+  const { id } = req.params;
+
+  const user = await User.findById(id);
+
+  try {
+    await Publication.update({ _id: req.body.publication }, { $push: user }, done );
+  } catch (e) {
+    return res.json(new ApiResponse('Error al agregar postulante', 400, user, e));
+  }
+  res.json(new ApiResponse('Postulante agregado', 200, user));
+};
+
 
 module.exports = publicationCtrl;

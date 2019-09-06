@@ -18,13 +18,25 @@ petCtrl.getPet = async (req, res) => {
 };
 
 petCtrl.createPet = async (req, res) => {
+
+  let img = undefined;  
+  if(req.body.imagen){
+    img = new Image({
+      title: req.body.imagen.title,
+      creator: req.body.imagen.creator,
+      extension: req.body.imagen.extension,
+      path: req.body.imagen.path
+    });
+  }
+
   const pet = new Pet({ 
     name: req.body.name,
     surname: req.body.surname,
     age: req.body.age,
     birth: req.body.birth,
     type: req.body.type,
-    characteristics: req.body.characteristics
+    characteristics: req.body.characteristics,
+    imagen: img
   });
 
   try{

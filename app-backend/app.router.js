@@ -31,6 +31,8 @@ router.get('/publication', publicationCtrl.getPublications);
 router.post('/publication', publicationCtrl.createPublication);
 router.get('/publication/:id', publicationCtrl.getPublication);
 router.put('/publication/:id', publicationCtrl.editPublication);
-router.delete('/publication/:id', publicationCtrl.deletePublication); 
+router.delete('/publication/:id', publicationCtrl.deletePublication);
+
+router.post('/publication/:id', publicationCtrl.addPostulant); 
 
 module.exports = router;

@@ -9,6 +9,7 @@ const { mongoose } = require('./db.connection');
 //Extra modules.
 const 
   morgan = require('morgan'),//module for view in console web petitions.
+  cors = require('cors'),//module for communication between servers.
   session = require("express-session");//module for session driver
 
 const session_middleware = require("./middleware/session.middleware");
@@ -31,8 +32,9 @@ app.use(session({
   resave: false,
   saveUninitialized : false
 }));
-// Middleware to publish only if the user has logged in.
-app.use("/app/publication", session_middleware);
+//Cors is a middleware, so we add it with .use() and also 
+//the connection configuration with the Angular server.
+app.use(cors({origin: 'http://localhost:4200'}));
 
 //ROUTES
 app.use('/app', require('./app.router'));
