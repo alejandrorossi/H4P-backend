@@ -39,14 +39,27 @@ publicationCtrl.deletePublication = async (req, res) => {
 publicationCtrl.addPostulant = async (req, res) => {
   const { id } = req.params;
 
-  const user = await User.findById(id);
+  var user, pub, response;
+
+  await User.findById(id)
+    .then(t => user = t)
+    .catch(e => response = new ApiResponse('Usuario no encontrado', 404, {}, e));
+
+  if(response){ return response; }
+
+  await Publication.findById(req.body.publication)
+    .then(t => pub = t)
+    .catch(e => response = new ApiResponse('Publicacion no encontrada', 404, {}, e));
+
+  if(response){ return response; }
 
   try {
-    await Publication.update({ _id: req.body.publication }, { $push: user }, done );
+    pub.postulants.push(user);
+    await pub.save();
+    res.json(new ApiResponse('Postulante agregado', 200, user));
   } catch (e) {
     return res.json(new ApiResponse('Error al agregar postulante', 400, user, e));
   }
-  res.json(new ApiResponse('Postulante agregado', 200, user));
 };
 
 

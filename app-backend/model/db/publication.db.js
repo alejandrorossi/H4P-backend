@@ -1,7 +1,6 @@
 const
   mongoose = require('mongoose'),
   { Schema } = mongoose,
-  Comment = require('./comment.db').schema,
   User = require('./user.db').schema;
 
 //Schema for user.
@@ -14,13 +13,9 @@ var publication_schema = new Schema({
     type: Schema.Types.ObjectId, 
     ref: "User"
   },
-  comments: {
-    type: [Comment],
-    default: undefined
-  },
   postulants: {
     type: [User],
-    default: undefined
+    default: []
   },
   createdDate: { 
     type: Date, 

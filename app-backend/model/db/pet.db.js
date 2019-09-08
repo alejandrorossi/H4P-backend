@@ -1,6 +1,7 @@
 const 
   mongoose = require('mongoose'),
-  { Schema } = mongoose;
+  { Schema } = mongoose,
+  Imagen = require('./imagen.db').schema;
 
 //Schema for pet.
 var pet_schema = new Schema({
@@ -12,7 +13,7 @@ var pet_schema = new Schema({
   surname: {
     type: String,
     require: false,
-    default: undefined,
+    default: "",
     maxlength:[15,"Apellido muy largo"]
   },
   age: {
@@ -33,12 +34,12 @@ var pet_schema = new Schema({
   characteristics:{
     type: String,
     require: false,
-    default: undefined,
+    default: "",
     max: [255, "La cantidad de carácteres maximo es de 255"]
   },
   imagen:{
-    type: Schema.Types.ObjectId, 
-    ref: "Imagen"
+    type: [Imagen],
+    default: []
   },
   createdDate: { 
     type: Date, 
