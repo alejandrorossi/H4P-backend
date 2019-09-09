@@ -36,6 +36,10 @@ app.use(session({
 //the connection configuration with the Angular server.
 app.use(cors({origin: 'http://localhost:4200'}));
 
+//Use middleware for session control
+//app.use("/app/publication", session_middleware);
+
+
 //ROUTES
 app.use('/app', require('./app.router'));
 
