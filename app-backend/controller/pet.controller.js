@@ -6,7 +6,7 @@ const petCtrl = {}
 
 //Get users
 petCtrl.getPets = async (req, res) => {
-  const pets = await Pet.find();
+  const pets = await Pet.find().populate('user');
   res.json(new ApiResponse('Mascotas encontradas', 200, pets));
 };
 

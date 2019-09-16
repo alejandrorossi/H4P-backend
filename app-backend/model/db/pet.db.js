@@ -37,9 +37,13 @@ var pet_schema = new Schema({
     default: "",
     max: [255, "La cantidad de carácteres maximo es de 255"]
   },
-  imagen:{
+  images:{
     type: [Imagen],
     default: []
+  },
+  user:{
+    type: Schema.Types.ObjectId, 
+    ref: "User"
   },
   createdDate: { 
     type: Date, 

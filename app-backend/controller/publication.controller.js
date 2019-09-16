@@ -8,7 +8,15 @@ const publicationCtrl = {}
 
 //Get users
 publicationCtrl.getPublications = async (req, res) => {
-  const publis = await Publication.find().populate('user').populate('pet');
+  const publis = await Publication.find()
+  .populate({
+    path: 'pet',
+    model: 'Pet',		
+    populate: { 
+      path:  'user',
+      model: 'User'
+    }
+  });
   res.json(new ApiResponse('Publicaciones encontradas', 200, publis));
 };
 
