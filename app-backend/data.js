@@ -20,7 +20,7 @@ data.loadData = async (req, res) => {
       "surname": "refugio",
       "username": "refugio",
       "password": "$2a$10$IUBUd.fkWAnKZ43zfWw.wuHKkyrdotlbMdj1D7xV8ENfIAZNgkfdS",
-      "age": 10,
+      "age": 18,
       "email": "refugio@gmail.com"
     },
     {

@@ -10,7 +10,7 @@ var user_schema = new Schema({
   name: {
     type: String,
     require: true, 
-    maxlength:[30,"Nombre muy largo"]
+    maxlength:[15,"Nombre muy largo"]
   },
   surname: {
     type: String,
@@ -30,7 +30,7 @@ var user_schema = new Schema({
   age: {
     type: Number,
     require: true,    
-    min: [5, "La edad no puede ser menor que 5"], 
+    min: [18, "La edad no puede ser menor que 18"], 
     max: [100, "La edad no puede ser mayor que 100"]
   },
   email: {
