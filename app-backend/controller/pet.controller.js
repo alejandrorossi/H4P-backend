@@ -1,4 +1,10 @@
-const Pet = require('../model/db/pet.db');
+const 
+  Pet = require('../model/db/pet.db'),
+  User = require('../model/db/user.db');
+
+const 
+  fs = require('fs'),
+  path = require('path');
 
 const ApiResponse = require('../model/api.response');
 
@@ -12,9 +18,9 @@ petCtrl.getPets = async (req, res) => {
 
 petCtrl.getPet = async (req, res) => {
   const pet = await User.findById(req.params.id);
-  if(!pet) return res.json(new ApiResponse('Usuario no encontrado', 404, pet));
+  if(!pet) return res.json(new ApiResponse('Mascota no encontrada', 404, pet));
 
-  res.json(new ApiResponse('Usuario encontrado', 200, user));
+  res.json(new ApiResponse('Mascota encontrada', 200, user));
 };
 
 petCtrl.createPet = async (req, res) => {

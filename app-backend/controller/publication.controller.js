@@ -25,8 +25,7 @@ publicationCtrl.getPublication = async (req, res) => {
 
 publicationCtrl.createPublication = async (req, res) => {
   const pub = new Publication({ 
-    pet: req.body.pet,
-    user: req.session.user_id
+    pet: req.body.pet
   });
 
   try{

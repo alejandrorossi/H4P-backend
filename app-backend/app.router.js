@@ -7,7 +7,8 @@ const
 const 
   userCtrl = require('./controller/user.controller'),
   petCtrl = require('./controller/pet.controller'),
-  publicationCtrl = require('./controller/publication.controller');
+  publicationCtrl = require('./controller/publication.controller'),
+  imageCtrl = require('./controller/image.controller');
 
 // Routes
 // USER
@@ -34,5 +35,9 @@ router.put('/publication/:id', publicationCtrl.editPublication);
 router.delete('/publication/:id', publicationCtrl.deletePublication);
 
 router.post('/publication/:id', publicationCtrl.addPostulant); 
+
+// IMAGE
+router.get('/image/:id', imageCtrl.getImage);
+router.post('/image', imageCtrl.createImage);  
 
 module.exports = router;

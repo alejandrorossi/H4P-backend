@@ -7,6 +7,10 @@ var img_schema = new Schema({
     type:String, 
     require:true
   },
+  name:{
+    type:String, 
+    require:true
+  },
   creator:{
     type: Schema.Types.ObjectId, 
     ref: "User"
@@ -25,6 +29,6 @@ var img_schema = new Schema({
   }
 });
 
-var Imagen = mongoose.model("Imagen", img_schema);
+var Image = mongoose.model("Image", img_schema);
 
-module.exports = Imagen;
+module.exports = Image;

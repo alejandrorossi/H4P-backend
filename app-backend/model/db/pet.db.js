@@ -1,14 +1,14 @@
 const 
   mongoose = require('mongoose'),
   { Schema } = mongoose,
-  Imagen = require('./imagen.db').schema;
+  Image = require('./image.db').schema;
 
 //Schema for pet.
 var pet_schema = new Schema({
   name: {
     type: String,
     require: true, 
-    maxlength:[30,"Nombre muy largo"]
+    maxlength:[15,"Nombre muy largo"]
   },
   surname: {
     type: String,
@@ -38,7 +38,7 @@ var pet_schema = new Schema({
     max: [255, "La cantidad de carácteres maximo es de 255"]
   },
   images:{
-    type: [Imagen],
+    type: [Image],
     default: []
   },
   user:{

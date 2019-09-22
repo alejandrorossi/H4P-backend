@@ -1,18 +1,19 @@
 const 
   Pet = require('./model/db/pet.db'),
   Publication = require('./model/db/publication.db'),
-  User = require('./model/db/user.db');
+  User = require('./model/db/user.db'),
+  Image = require('./model/db/image.db');
 
 const data = {}
 
 data.loadData = async (req, res) => {
-  let pets, pubs, users;
 
   await Pet.deleteMany();
   await Publication.deleteMany();
   await User.deleteMany();
+  await Image.deleteMany();
 
-  let pet, user;
+  let pet, user, image;
 
   User.insertMany([
     {
@@ -37,39 +38,55 @@ data.loadData = async (req, res) => {
 
     user = result[0];
 
-    Pet.insertMany([
+    Image.insertMany([
       {
-        "name":"Tyson",
-        "age": 5,
-        "birth": "2019-01-01T00:00:00.000Z",
-        "type":"Perro",
-        "characteristics": "Es un perro muy guardian",
-        "user": user
-      }, 
-      {
-        "name":"Lula",
-        "age": 3,
-        "birth": "2019-01-01T00:00:00.000Z",
-        "type":"Gato",
-        "characteristics": "Una gatita muy mimosa",
-        "user": user
+        "title": "perro-01",
+        "name": "HASH-perro-01.jpg",
+        "extension": "jpg",
+        "creator": user,
+        "path": "/home/emmanuel/Documents/UNQ/TIP/Repos/H4P-backend/app-backend/public/image/"
       }
     ], 
     function(err, result) {
-      console.log("Se insertaron 2 documentos en coleccion: Pets");
-  
-      pet = result[0];
-  
-      Publication.insertMany([
-        {
-          "pet": pet
-        }
-      ],
-      function(err, result) {
-        console.log("Se inserto 1 documento en coleccion: Publications");
-      });
-    });
+      console.log("Se inserto 1 documento en coleccion: Images");
 
+      image = result[0];
+
+      Pet.insertMany([
+        {
+          "name":"Tyson",
+          "age": 5,
+          "birth": "2019-01-01T00:00:00.000Z",
+          "type":"Perro",
+          "characteristics": "Es un perro muy guardian",
+          "user": user,
+          "images": [image]
+        }, 
+        {
+          "name":"Lula",
+          "age": 3,
+          "birth": "2019-01-01T00:00:00.000Z",
+          "type":"Gato",
+          "characteristics": "Una gatita muy mimosa",
+          "user": user
+        }
+      ], 
+      function(err, result) {
+        console.log("Se insertaron 2 documentos en coleccion: Pets");
+    
+        pet = result[0];
+    
+        Publication.insertMany([
+          {
+            "pet": pet
+          }
+        ],
+        function(err, result) {
+          console.log("Se inserto 1 documento en coleccion: Publications");
+        });
+      });
+
+    });
   });
 };
 
