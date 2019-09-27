@@ -9,10 +9,10 @@ const
 const imageCtrl = {}
 
 imageCtrl.getImage = async (req, res) => {
-
+  
   try {
     const img = await Image.findById(req.params.id)
-    fs.readFile(`${img.path}${img.name}`,'base64',
+    fs.readFile(`${process.cwd()}${img.path}/${img.name}`,'base64',
     (err, data)=>{
       //Si hay un error al leer la imagen.
       if(err) res.json(new ApiResponse('Imagen no se pudo recuperar', 400, img, err));

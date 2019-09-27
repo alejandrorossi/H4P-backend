@@ -44,7 +44,7 @@ data.loadData = async (req, res) => {
         "name": "HASH-perro-01.jpg",
         "extension": "jpg",
         "creator": user,
-        "path": "/home/emmanuel/Documents/UNQ/TIP/Repos/H4P-backend/app-backend/public/image/"
+        "path": "/app-backend/public/image"
       }
     ], 
     function(err, result) {
