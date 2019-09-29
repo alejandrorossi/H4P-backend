@@ -17,32 +17,20 @@ petCtrl.getPets = async (req, res) => {
 };
 
 petCtrl.getPet = async (req, res) => {
-  const pet = await User.findById(req.params.id);
+  const pet = await Pet.findById(req.params.id);
   if(!pet) return res.json(new ApiResponse('Mascota no encontrada', 404, pet));
 
   res.json(new ApiResponse('Mascota encontrada', 200, user));
 };
 
 petCtrl.createPet = async (req, res) => {
-
-  let img = undefined;  
-  if(req.body.imagen){
-    img = new Image({
-      title: req.body.imagen.title,
-      creator: req.body.imagen.creator,
-      extension: req.body.imagen.extension,
-      path: req.body.imagen.path
-    });
-  }
-
   const pet = new Pet({ 
     name: req.body.name,
     surname: req.body.surname,
     age: req.body.age,
     birth: req.body.birth,
     type: req.body.type,
-    characteristics: req.body.characteristics,
-    imagen: img
+    characteristics: req.body.characteristics
   });
 
   try{
@@ -54,31 +42,35 @@ petCtrl.createPet = async (req, res) => {
 };
 
 petCtrl.editPet = async (req, res) => {
-  const { id } = req.params;
-  const pet = {
-    name: req.body.name,
-    surname: req.body.surname,
-    age: req.body.age,
-    birth: req.body.birth,
-    type: req.body.type,
-    characteristics: req.body.characteristics
-  };
+  const 
+    { id } = req.params,
+    pet = {
+      name: req.body.name,
+      surname: req.body.surname,
+      age: req.body.age,
+      birth: req.body.birth,
+      type: req.body.type,
+      characteristics: req.body.characteristics
+    };
 
   try {
-    await Pet.findByIdAndUpdate(id, {$set: pet}, {new: true});
+    const petUpdated = await Pet.updateOne({ _id: id }, {$set: pet}, {new: true});
   } catch (e) {
     return res.json(new ApiResponse('Error al actualizar', 400, pet, e));
   }
 
-  res.json(new ApiResponse('Mascota actualizada', 200, user));
+  res.json(new ApiResponse('Mascota actualizada', 200, pet));
 };
 
 petCtrl.deletePet = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    await User.findByIdAndRemove(req.params.id);
+    const user = await Pet.deleteOne({ _id: id });
   } catch (e) {
     return res.json(new ApiResponse('Error al eliminar', 400, {}, e));
   }
+  
   res.json(new ApiResponse('Mascota eliminada', 200));
 };
 

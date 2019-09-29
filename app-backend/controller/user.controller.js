@@ -1,11 +1,12 @@
-//This controller is data manager of the database
+  //This controller is data manager of the database
 //Import user model to consult database.
 const User = require('../model/db/user.db');
 
 const
   bcrypt  =  require('bcryptjs')//module to hash password
 
-const ApiResponse = require('../model/api.response');
+const
+  ApiResponse = require('../model/api.response');
 
 const userCtrl = {}
 
@@ -17,7 +18,6 @@ userCtrl.getUsers = async (req, res) => {
 
 //Post a user
 userCtrl.createUser = async (req, res) => {
-
   const user = new User({ 
     name: req.body.name,
     surname: req.body.surname,
@@ -45,9 +45,14 @@ userCtrl.getUser = async (req, res) => {
 
 //Method for login
 userCtrl.getUserForUsernamePassword = async (req, res) => {
-  let user;
+  let findValue; //Permitimos iniciar sesion con email o con nombre de usuario.
+  if(req.body.username.includes('@'))
+    findValue = { email: req.body.username };
+  else
+    findValue = { username: req.body.username };
+
   try {
-    user = await User.findOne({ username: req.body.username });
+    const user = await User.findOne(findValue);
   } catch (e) {
     return res.json(new ApiResponse('Error en el servidor', 500, user, e));
   }
@@ -61,36 +66,40 @@ userCtrl.getUserForUsernamePassword = async (req, res) => {
   //Save user in session
   req.session.user_id = user._id;
   
-  var r = new ApiResponse('Usuario logueado', 200, user);
-  res.json(r);
+  res.json(new ApiResponse('Usuario logueado', 200, user));
 };
 
 //Put a user
 userCtrl.editUser = async (req, res) => {
-  const { id } = req.params;
-  const user = {
-    name: req.body.name,
-    surname: req.body.surname,
-    username: req.body.username,
-    password: req.body.password,
-    age: req.body.age,
-    email: req.body.email
-  };
+  const 
+    { id } = req.params,
+    user = {
+      name: req.body.name,
+      surname: req.body.surname,
+      username: req.body.username,
+      password: req.body.password,
+      age: req.body.age,
+      email: req.body.email
+    };
+
   try {
-    await User.findByIdAndUpdate(id, {$set: user}, {new: true});
+    const userUpdated = await User.updateOne({ _id: id }, {$set: user}, {new: true});
   } catch (e) {
     return res.json(new ApiResponse('Error al actualizar', 400, user, e));
   }
+
   res.json(new ApiResponse('Usuario actualizado', 200, user));
 };
 
 //DEL a user
 userCtrl.deleteUser = async (req, res) => {
+  const { id } = req.params;
   try {
-    await User.findByIdAndRemove(req.params.id);
+    const user = await User.deleteOne({ _id: id });
   } catch (e) {
     return res.json(new ApiResponse('Error al eliminar', 400, {}, e));
   }
+  
   res.json(new ApiResponse('Usuario eliminado', 200));
 };
 

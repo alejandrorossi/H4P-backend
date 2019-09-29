@@ -8,7 +8,7 @@ const publicationCtrl = {}
 
 //Get users
 publicationCtrl.getPublications = async (req, res) => {
-  const publis = await Publication.find()
+  const publications = await Publication.find()
   .populate({
     path: 'pet',
     model: 'Pet',		
@@ -17,22 +17,23 @@ publicationCtrl.getPublications = async (req, res) => {
       model: 'User'
     }
   });
-  res.json(new ApiResponse('Publicaciones encontradas', 200, publis));
+
+  res.json(new ApiResponse('Publicaciones encontradas', 200, publications));
 };
 
 publicationCtrl.getPublication = async (req, res) => {
 };
 
 publicationCtrl.createPublication = async (req, res) => {
-  const pub = new Publication({ 
+  const publication = new Publication({ 
     pet: req.body.pet
   });
 
   try{
-    await pub.save();
-    res.json(new ApiResponse('Publicación guardada', 201, pub));
+    await publication.save();
+    res.json(new ApiResponse('Publicación guardada', 201, publication));
   }catch(e){
-    res.json(new ApiResponse('Publicación no se pudo guardar', 400, pub, e));
+    res.json(new ApiResponse('Publicación no se pudo guardar', 400, publication, e));
   }
 };
 
@@ -44,30 +45,24 @@ publicationCtrl.deletePublication = async (req, res) => {
 
 //Add postulant
 publicationCtrl.addPostulant = async (req, res) => {
-  const { id } = req.params;
-
-  var user, pub, response;
-
-  await User.findById(id)
-    .then(t => user = t)
-    .catch(e => response = new ApiResponse('Usuario no encontrado', 404, {}, e));
-
-  if(response){ return response; }
-
-  await Publication.findById(req.body.publication)
-    .then(t => pub = t)
-    .catch(e => response = new ApiResponse('Publicacion no encontrada', 404, {}, e));
-
-  if(response){ return response; }
+  const id = req.params;
 
   try {
-    pub.postulants.push(user);
-    await pub.save();
-    res.json(new ApiResponse('Postulante agregado', 200, user));
+    const user = await User.findById(id);
+    if (!user) new ApiResponse('Usuario no encontrado', 404, {});
+    const publication =  await Publication.findById(req.body.publication);
+  } catch (e) {
+      return new ApiResponse('Publicacion no encontrada', 404, {}, e);
+  }
+
+  try {
+    publication.postulants.push(user);
+    await publication.save();
   } catch (e) {
     return res.json(new ApiResponse('Error al agregar postulante', 400, user, e));
   }
-};
 
+  res.json(new ApiResponse('Postulante agregado', 200, user));
+};
 
 module.exports = publicationCtrl;
