@@ -1,7 +1,7 @@
 const
   mongoose = require('mongoose'),
   { Schema } = mongoose,
-  User = require('./user.db').schema;
+  User = require('./user.db').schema,
   status = ['inprogress', 'finished'];
 
 //Schema for user.

@@ -3,29 +3,29 @@ const
   { Schema } = mongoose;
 
 //Validation for mail.
-var email_match = [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Coloca un email válido"];
+var email_match = [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Formato de imail inválido"];
 
 //Schema for user.
 var user_schema = new Schema({
   name: {
     type: String,
     require: true, 
-    maxlength:[15,"Nombre muy largo"]
+    maxlength:[15,"El nombre debe ser menor a 15 carácteres"]
   },
   surname: {
     type: String,
     require: true, 
-    maxlength:[15,"Apellido muy largo"]
+    maxlength:[15,"El apellido debe ser menor a 15 carácteres"]
   },
   username: {
     type: String,
     require: true, 
-    maxlength:[10,"Username muy largo"]
+    maxlength:[10,"El nombre de usuario debe ser menor a 10 carácteres"]
   },
   password: {
     type: String,
     require: true, 
-    minlength:[8,"El password es muy corto"]
+    minlength:[8,"La contraseña debe ser mayor a 8 carácteres"]
   },
   age: {
     type: Number,

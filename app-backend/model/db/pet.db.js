@@ -1,26 +1,33 @@
 const 
   mongoose = require('mongoose'),
   { Schema } = mongoose,
-  Image = require('./image.db').schema;
+  Image = require('./image.db').schema,
+  typeAge = ['D', 'M', 'A'];
 
 //Schema for pet.
 var pet_schema = new Schema({
   name: {
     type: String,
     require: true, 
-    maxlength:[15,"Nombre muy largo"]
+    maxlength:[15,"El nombre debe ser menor a 15 carácteres"]
   },
   surname: {
     type: String,
     require: false,
     default: "",
-    maxlength:[15,"Apellido muy largo"]
+    maxlength:[15,"El apellido debe ser menor a 15 carácteres"]
   },
   age: {
     type: Number,
     require: true,
     min: [0, "La edad no puede ser menor que 0"], 
     max: [100, "La edad no puede ser mayor que 100"]
+  },
+  typeAge: {
+    type: String,
+    enum: typeAge,
+    required: true,
+    default: typeAge[1]
   },
   birth: { 
     type: Date,
@@ -29,9 +36,9 @@ var pet_schema = new Schema({
   type: {
     type: String,
     require: true, 
-    maxlength:[30,"Nombre muy largo"]
+    maxlength:[15,"El tipo debe ser menor a 15 carácteres"]
   },
-  characteristics:{
+  description:{
     type: String,
     require: false,
     default: "",
