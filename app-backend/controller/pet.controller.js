@@ -24,13 +24,16 @@ petCtrl.getPet = async (req, res) => {
 };
 
 petCtrl.createPet = async (req, res) => {
+
   const pet = new Pet({ 
     name: req.body.name,
     surname: req.body.surname,
     age: req.body.age,
+    typeAge: req.body.typeAge,
     birth: req.body.birth,
     type: req.body.type,
-    characteristics: req.body.characteristics
+    description: req.body.description,
+    user: req.body.user
   });
 
   try{
@@ -48,13 +51,14 @@ petCtrl.editPet = async (req, res) => {
       name: req.body.name,
       surname: req.body.surname,
       age: req.body.age,
+      typeAge: req.body.typeAge,
       birth: req.body.birth,
       type: req.body.type,
-      characteristics: req.body.characteristics
+      description: req.body.description
     };
 
   try {
-    const petUpdated = await Pet.updateOne({ _id: id }, {$set: pet}, {new: true});
+    await Pet.updateOne({ _id: id }, {$set: pet}, {new: true});
   } catch (e) {
     return res.json(new ApiResponse('Error al actualizar', 400, pet, e));
   }
@@ -66,7 +70,7 @@ petCtrl.deletePet = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const user = await Pet.deleteOne({ _id: id });
+    await Pet.deleteOne({ _id: id });
   } catch (e) {
     return res.json(new ApiResponse('Error al eliminar', 400, {}, e));
   }

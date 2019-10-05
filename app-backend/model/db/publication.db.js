@@ -1,17 +1,16 @@
 const
   mongoose = require('mongoose'),
   { Schema } = mongoose,
-  User = require('./user.db').schema,
-  status = ['inprogress', 'finished'];
+  Application = require('./application.db').schema,
+  status = ["publico", "privado"];
 
-//Schema for user.
 var publication_schema = new Schema({
   pet:{
     type: Schema.Types.ObjectId, 
     ref: "Pet"
   },
-  postulants: {
-    type: [User],
+  applications: {
+    type: [Application],
     default: []
   },
   status: {

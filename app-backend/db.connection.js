@@ -11,11 +11,14 @@ const URI = config.database;
 mongoose.connect(URI, {useNewUrlParser: true})
   //Use a promise to see when the database connection is made or see error.
   .then(db => {
-    console.log('DB is connected');
+    console.log("DB is connected");
 
     data.loadData()
-      .then(t => console.log("Se ejecuto bien loadData"))
-      .catch(e => console.log("No se ejecuto bien loadData: "+ e));
+      .then(t => console.log("La carga de datos iniciales fue correcta."))
+      .catch(e => {
+        console.log("No se ejecuto con errores la carga de datos iniciales.");
+        console.log(e);
+      });
   })
   .catch(err => console.error(err));
 
