@@ -53,11 +53,11 @@ userCtrl.getUserForUsernamePassword = async (req, res) => {
 
   try {
     const user = await User.findOne(findValue);
-    if(!user) return res.json(new ApiResponse('Usuario no encontrado', 404));
+    if(!user) return res.json(new ApiResponse('Usuario/e-mail no encontrado', 404, {}, 'Error:'));
     
     //Validate password
     const result = bcrypt.compareSync(req.body.password, user.password);
-    if(!result) return res.json(new ApiResponse('Contraseña invalida', 400));
+    if(!result) return res.json(new ApiResponse('Contraseña incorrecta', 400, {}, 'Error:'));
     
     //Save user in session
     req.session.user_id = user._id;
