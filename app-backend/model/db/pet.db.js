@@ -42,7 +42,7 @@ var pet_schema = new Schema({
     type: String,
     require: false,
     default: "",
-    max: [255, "La cantidad de carácteres maximo es de 255"]
+    max: [500, "La cantidad de carácteres maximo es de 500"]
   },
   images:{
     type: [Image],
