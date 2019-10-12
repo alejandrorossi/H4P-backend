@@ -2,6 +2,7 @@ const
   mongoose = require('mongoose'),
   { Schema } = mongoose,
   Image = require('./image.db').schema,
+  User = require('./user.db').schema,
   typeAge = ['D', 'M', 'A'];
 
 //Schema for pet.

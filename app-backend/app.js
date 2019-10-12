@@ -10,9 +10,10 @@ const { mongoose } = require('./db.connection');
 const 
   morgan = require('morgan'),//module for view in console web petitions.
   cors = require('cors'),//module for communication between servers.
-  session = require("express-session");//module for session driver
+  session = require("express-session"),//module for session driver
+  bodyParser = require("body-parser");//module for body request parser
 
-const session_middleware = require("./middleware/session.middleware");
+// const session_middleware = require("./middleware/session.middleware");
   
 //SETTINGS
 const 
@@ -23,7 +24,8 @@ app.set('port', port);
 
 //MIDDLEWARES
 //This is for the server to understand the data, and later to be able to use req.body
-app.use(express.json());
+app.use(express.json({limit:'50mb'}));
+app.use(express.urlencoded({limit: '50mb', extended: true}));
 //Use Morgan module
 app.use(morgan('dev'));
 //Use session driver
@@ -32,6 +34,7 @@ app.use(session({
   resave: false,
   saveUninitialized : false
 }));
+
 //Cors is a middleware, so we add it with .use() and also 
 //the connection configuration with the Angular server.
 app.use(cors({origin: 'http://localhost:4200'}));
