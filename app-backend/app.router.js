@@ -8,7 +8,8 @@ const
   userCtrl = require('./controller/user.controller'),
   petCtrl = require('./controller/pet.controller'),
   publicationCtrl = require('./controller/publication.controller'),
-  imageCtrl = require('./controller/image.controller');
+  imageCtrl = require('./controller/image.controller'),
+  solicitudCtrl = require('./controller/solicitud.controller');
 
 // Routes
 // USER
@@ -39,5 +40,10 @@ router.post('/publication/:id', publicationCtrl.addPostulant);
 // IMAGE
 router.get('/image/:id', imageCtrl.getImage);
 router.post('/image', imageCtrl.createImage);  
+
+
+// SOLICITUDES
+router.get('/solicitud', solicitudCtrl.getSolicitudes);
+// router.post('/solicitud', solicitudCtrl.createImage);  
 
 module.exports = router;
