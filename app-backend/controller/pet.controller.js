@@ -1,6 +1,7 @@
 const 
   Pet = require('../model/db/pet.db'),
-  User = require('../model/db/user.db');
+  User = require('../model/db/user.db'),
+  ImageController = require('../controller/image.controller');
 
 const 
   fs = require('fs'),
@@ -26,11 +27,22 @@ petCtrl.getPet = async (req, res) => {
 
 petCtrl.createPet = async (req, res) => {
   //Se preparan las imagenes para guardarlas.
-  let imagesForSave = req.body.images;
-  for(let i of imagesForSave){
-    i.path = `${process.cwd()}/app-backend/public/image/`;
-    i.name = `${bcrypt.hashSync("imagen")}-${i.title}`;
+  let imagesForSave = [];
+  let images = [];
+  for(let i of req.body.images){
+    i.path = `/app-backend/public/image`;
+    i.name = `${bcrypt.hashSync("imagen").replace(/\//g, "slash")}-${i.title}.${i.extension}`;
+    
+    let dataImage = i.data.replace(`data:image/${i.extension};base64,`, "");
+    fs.writeFileSync(`${process.cwd()}${i.path}/${i.name}`,dataImage,'base64');
+    
     i.data = '';
+    try {
+      let image = await ImageController.saveImage(i);
+      images.push(image.data)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const pet = new Pet({ 
@@ -42,15 +54,10 @@ petCtrl.createPet = async (req, res) => {
     type: req.body.type,
     description: req.body.description,
     user: req.body.user._id,
-    images: imagesForSave
+    images: images
   });
   
   try{
-    let images = req.body.images;
-    for(let img of images){
-      let base64Data = img.data.replace(`data:image/${img.extension};base64,`, "");      
-      fs.writeFileSync(`${img.path}/${img.name}.${img.extension}`, base64Data, 'base64');
-    }
     await pet.save();
     res.json(new ApiResponse('Mascota guardada', 201, pet));
   }catch(e){
