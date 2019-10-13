@@ -26,8 +26,7 @@ petCtrl.getPet = async (req, res) => {
 };
 
 petCtrl.createPet = async (req, res) => {
-  //Se preparan las imagenes para guardarlas.
-  let imagesForSave = [];
+  //Primero se guardan las imagenes
   let images = [];
   for(let i of req.body.images){
     i.path = `/app-backend/public/image`;
@@ -35,13 +34,13 @@ petCtrl.createPet = async (req, res) => {
     
     let dataImage = i.data.replace(`data:image/${i.extension};base64,`, "");
     fs.writeFileSync(`${process.cwd()}${i.path}/${i.name}`,dataImage,'base64');
-    
+
     i.data = '';
     try {
       let image = await ImageController.saveImage(i);
       images.push(image.data)
     } catch (error) {
-      console.log(error);
+      res.json(new ApiResponse('Error al guardar imagenes', 400, {}, e));
     }
   }
 
