@@ -12,12 +12,6 @@ var pet_schema = new Schema({
     require: true, 
     maxlength:[15,"El nombre debe ser menor a 15 carácteres"]
   },
-  surname: {
-    type: String,
-    require: false,
-    default: "",
-    maxlength:[15,"El apellido debe ser menor a 15 carácteres"]
-  },
   age: {
     type: Number,
     require: true,

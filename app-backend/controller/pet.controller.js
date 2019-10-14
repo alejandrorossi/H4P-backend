@@ -5,8 +5,7 @@ const
 
 const 
   fs = require('fs'),
-  bcrypt = require('bcryptjs'),
-  path = require('path');
+  bcrypt = require('bcryptjs');
 
 const ApiResponse = require('../model/api.response');
 
@@ -46,7 +45,6 @@ petCtrl.createPet = async (req, res) => {
 
   const pet = new Pet({ 
     name: req.body.name,
-    surname: req.body.surname,
     age: req.body.age,
     typeAge: req.body.typeAge,
     birth: req.body.birth,
@@ -69,7 +67,6 @@ petCtrl.editPet = async (req, res) => {
     { id } = req.params,
     pet = {
       name: req.body.name,
-      surname: req.body.surname,
       age: req.body.age,
       typeAge: req.body.typeAge,
       birth: req.body.birth,
