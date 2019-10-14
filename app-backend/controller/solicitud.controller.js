@@ -8,14 +8,17 @@ solicitudCtrl.getSolicitudes = async (req, res) => {
 
   const query = { applications: { $exists: true, $ne: [] } };
 
-  const publicaciones = await Publication.find(query).populate({
+  const publicaciones = await Publication.find(query).populate(
+    
+    {
     path: 'pet',
-    model: 'Pet',		
-    populate: { 
-      path:  'user',
-      model: 'User'
-    }//cambiar para que en applications traiga usuarios
-  });
+    model: 'Pet'	
+
+  // }).populate({
+  //   path:  'applications',
+  //   populate: { path: 'user', model: 'User'}
+  }
+  ).populate('applications.user');
 
   if (!publicaciones) new ApiResponse('Publicaciones no encontradas', 404, {});
  

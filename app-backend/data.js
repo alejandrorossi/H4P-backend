@@ -29,8 +29,8 @@ data.loadData = async (req, res) => {
         "email": "refugio@gmail.com"
       },
       {
-        "name": "postulante",
-        "surname": "postulante",
+        "name": "nombre-post",
+        "surname": "apellido-post",
         "username": "postulante",
         "password": "$2a$10$IUBUd.fkWAnKZ43zfWw.wuHKkyrdotlbMdj1D7xV8ENfIAZNgkfdS",
         "age": 20,
