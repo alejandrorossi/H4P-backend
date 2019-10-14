@@ -1,9 +1,11 @@
 const 
   Pet = require('../model/db/pet.db'),
-  User = require('../model/db/user.db');
+  User = require('../model/db/user.db'),
+  ImageController = require('../controller/image.controller');
 
 const 
   fs = require('fs'),
+  bcrypt = require('bcryptjs'),
   path = require('path');
 
 const ApiResponse = require('../model/api.response');
@@ -24,6 +26,23 @@ petCtrl.getPet = async (req, res) => {
 };
 
 petCtrl.createPet = async (req, res) => {
+  //Primero se guardan las imagenes
+  let images = [];
+  for(let i of req.body.images){
+    i.path = `/app-backend/public/image`;
+    i.name = `${bcrypt.hashSync("imagen").replace(/\//g, "slash")}-${i.title}.${i.extension}`;
+    
+    let dataImage = i.data.replace(`data:image/${i.extension};base64,`, "");
+    fs.writeFileSync(`${process.cwd()}${i.path}/${i.name}`,dataImage,'base64');
+
+    i.data = '';
+    try {
+      let image = await ImageController.saveImage(i);
+      images.push(image.data)
+    } catch (error) {
+      res.json(new ApiResponse('Error al guardar imagenes', 400, {}, e));
+    }
+  }
 
   const pet = new Pet({ 
     name: req.body.name,
@@ -33,9 +52,10 @@ petCtrl.createPet = async (req, res) => {
     birth: req.body.birth,
     type: req.body.type,
     description: req.body.description,
-    user: req.body.user
+    user: req.body.user._id,
+    images: images
   });
-
+  
   try{
     await pet.save();
     res.json(new ApiResponse('Mascota guardada', 201, pet));

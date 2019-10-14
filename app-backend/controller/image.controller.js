@@ -43,4 +43,21 @@ imageCtrl.createImage = async (req, res) => {
   }
 };
 
+imageCtrl.saveImage = async (imagen) => {
+  let img = new Image({
+    title: imagen.title,
+    name: imagen.name,
+    creator: imagen.creator,
+    extension: imagen.extension,
+    path: imagen.path
+  });
+
+  try{
+    const image = await img.save();
+    return (new ApiResponse('Imagen guardada', 201, image));
+  }catch(e){
+    return (new ApiResponse('Imagen no se pudo guardar', 400, img, e));
+  }
+};
+
 module.exports = imageCtrl;
