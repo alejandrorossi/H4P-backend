@@ -14,7 +14,7 @@ solicitudCtrl.getSolicitudes = async (req, res) => {
     populate: { 
       path:  'user',
       model: 'User'
-    }
+    }//cambiar para que en applications traiga usuarios
   });
 
   if (!publicaciones) new ApiResponse('Publicaciones no encontradas', 404, {});
