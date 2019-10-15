@@ -43,6 +43,16 @@ publicationCtrl.editPublication = async (req, res) => {
 };
 
 publicationCtrl.deletePublication = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const publication = await Publication.updateOne({ _id: id }, { status: 'eliminado' });
+    if(!publication) return new ApiResponse('Publicación no encontrada', 404, {}, e);
+
+    res.json(new ApiResponse('Publicación eliminada', 200, publication));
+  } catch (e) {
+    return res.json(new ApiResponse('Error al eliminar publicación', 400, {}, e));
+  }
 };
 
 //Add postulant

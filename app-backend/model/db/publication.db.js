@@ -2,7 +2,7 @@ const
   mongoose = require('mongoose'),
   { Schema } = mongoose,
   Application = require('./application.db').schema,
-  status = ["publico", "privado"];
+  status = ["publico", "privado", "eliminado"];
 
 var publication_schema = new Schema({
   pet:{

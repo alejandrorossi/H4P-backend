@@ -52,7 +52,7 @@ userCtrl.getUserForUsernamePassword = async (req, res) => {
     findValue = { username: req.body.username };
 
   try {
-    const user = await User.findOne(findValue);
+    const user = await User.findOne(findValue).select("+password");
     if(!user) return res.json(new ApiResponse('Usuario/e-mail no encontrado', 404, {}, 'Error:'));
     
     //Validate password

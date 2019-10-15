@@ -25,7 +25,8 @@ var user_schema = new Schema({
   password: {
     type: String,
     require: true, 
-    minlength:[8,"La contraseña debe ser mayor a 8 carácteres"]
+    minlength:[8,"La contraseña debe ser mayor a 8 carácteres"],
+    select: false
   },
   age: {
     type: Number,
