@@ -9,7 +9,7 @@ const
       ref: "User"
     },
     status: {
-      type: String,
+      type: String, 
       enum: status,
       default: status[0]
     },

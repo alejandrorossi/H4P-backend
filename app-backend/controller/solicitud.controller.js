@@ -3,8 +3,6 @@ const ApiResponse = require('../model/api.response');
 
 const solicitudCtrl = {};
 
-//Get solicitudes
-//añadir que no hayan sido adoptados
 solicitudCtrl.getSolicitudes = async (req, res) => {
 
   const query = { applications: { $exists: true, $ne: [] } };
@@ -14,7 +12,7 @@ solicitudCtrl.getSolicitudes = async (req, res) => {
       path: 'pet',
       model: 'Pet'
     }
-  ).populate('applications.user');
+  ).populate('applications.user'); 
 
   if (!publicaciones) new ApiResponse('Publicaciones no encontradas', 404, {});
 
@@ -27,22 +25,15 @@ solicitudCtrl.getSolicitudes = async (req, res) => {
 
 solicitudCtrl.putAceptarSolicitante = async (req, res) => {
 
-  const { id } = req.params; //id de usuario que viaja en url, deberia ser mejor la de application
+  const { id } = req.params; //application id
   const { idPublicacion } = req.body;
 
-  // mandar application ? mejor, cambiar el id de usuario al de application
-  // propiedad de "adoptado" a nivel publicación que sea un booleano?
-  // o recorrer la lista de application viendo si alguno tiene estado aceptado_
+    const pub = await Publication.updateOne(
+      { _id: idPublicacion, "applications._id": id },
+      { $set: { "applications.$.status" : "aceptado" } }
+   )
 
-  const status = "aceptado";
-
-  //   try {
-  //     const aplicationUpd = await Application.updateOne({ _id: id }, {$set: status}, {new: false});
-  //   } catch (e) {
-  //     return res.json(new ApiResponse('Error al actualizar', 400, user, e));
-  //   }
-
-  res.json(new ApiResponse('Usuario aceptado', 200, {}));
+  res.json(new ApiResponse('Usuario aceptado', 200, pub));
 };
 
 
