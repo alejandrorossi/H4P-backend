@@ -1,45 +1,62 @@
-const  
+const
   Publication = require('../model/db/publication.db'),
-  User =  require('../model/db/user.db'),
+  User = require('../model/db/user.db'),
   Application = require('../model/db/application.db');
 
 const ApiResponse = require('../model/api.response');
 
 const publicationCtrl = {}
-
+ 
 //Get users
 publicationCtrl.getPublications = async (req, res) => {
   const publications = await Publication.find()
-  .populate({
-    path: 'pet',
-    model: 'Pet',		
-    populate: { 
-      path:  'user',
-      model: 'User'
-    }
-  });
+    .populate({
+      path: 'pet',
+      model: 'Pet',
+      populate: {
+        path: 'user',
+        model: 'User'
+      }
+    });
 
   res.json(new ApiResponse('Publicaciones encontradas', 200, publications));
 };
 
-publicationCtrl.getPublication = async (req, res) => {
+publicationCtrl.getPublicacion = async (req, res) => {
+  const { id } = req.params;
+
+  const publicacion = await Publication.findOne({ _id: id })
+    .populate({
+      path: 'pet',
+      model: 'Pet',
+      populate: {
+        path: 'user',
+        model: 'User'
+      }
+    });
+
+  res.json(new ApiResponse('Publicacion encontrada', 200, publicacion));
+
 };
 
 publicationCtrl.createPublication = async (req, res) => {
-  const publication = new Publication({ 
+  const publication = new Publication({
     pet: req.body.pet,
     status: req.body.status
   });
 
-  try{
+  try {
     await publication.save();
     res.json(new ApiResponse('Publicación guardada', 201, publication));
-  }catch(e){
+  } catch (e) {
     res.json(new ApiResponse('Publicación no se pudo guardar', 400, publication, e));
   }
 };
 
 publicationCtrl.editPublication = async (req, res) => {
+
+
+
 };
 
 publicationCtrl.deletePublication = async (req, res) => {
@@ -47,7 +64,7 @@ publicationCtrl.deletePublication = async (req, res) => {
 
   try {
     const publication = await Publication.updateOne({ _id: id }, { status: 'eliminado' });
-    if(!publication) return new ApiResponse('Publicación no encontrada', 404, {}, e);
+    if (!publication) return new ApiResponse('Publicación no encontrada', 404, {}, e);
 
     res.json(new ApiResponse('Publicación eliminada', 200, publication));
   } catch (e) {
@@ -63,8 +80,8 @@ publicationCtrl.addPostulant = async (req, res) => {
     const user = await User.findById(id);
     if (!user) new ApiResponse('Usuario no encontrado', 404, {});
 
-    const publication =  await Publication.findById(req.body.publication);
-    if(!publication) return new ApiResponse('Publicacion no encontrada', 404, {}, e);
+    const publication = await Publication.findById(req.body.publication);
+    if (!publication) return new ApiResponse('Publicacion no encontrada', 404, {}, e);
 
     let application = new Application({
       user: user
@@ -73,7 +90,7 @@ publicationCtrl.addPostulant = async (req, res) => {
 
     publication.applications.push(application);
     await publication.save();
-    
+
     res.json(new ApiResponse('Postulante agregado', 200, publication));
   } catch (e) {
     return res.json(new ApiResponse('Error al agregar postulante', 400, {}, e));

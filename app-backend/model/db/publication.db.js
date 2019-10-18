@@ -9,7 +9,7 @@ var publication_schema = new Schema({
     type: Schema.Types.ObjectId, 
     ref: "Pet"
   },
-  applications: {
+  applications: { 
     type: [Application],
     default: []
   },
