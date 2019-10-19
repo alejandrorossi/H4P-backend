@@ -71,7 +71,8 @@ petCtrl.editPet = async (req, res) => {
       typeAge: req.body.typeAge,
       birth: req.body.birth,
       type: req.body.type,
-      description: req.body.description
+      description: req.body.description,
+      user: req.body.user._id
     };
 
   try {

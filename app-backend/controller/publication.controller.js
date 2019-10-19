@@ -7,15 +7,32 @@ const ApiResponse = require('../model/api.response');
 
 const publicationCtrl = {}
 
-//Get users
+//Get
 publicationCtrl.getPublications = async (req, res) => {
-  const publications = await Publication.find()
+  const publications = await Publication.find({ status: { $ne: 'eliminado' } })
   .populate({
     path: 'pet',
     model: 'Pet',		
     populate: { 
       path:  'user',
       model: 'User'
+    }
+  });
+
+  res.json(new ApiResponse('Publicaciones encontradas', 200, publications));
+};
+
+publicationCtrl.getUserPublications = async (req, res) => {
+  const { id } = req.params;
+
+  const publications = await Publication.find({ status: { $ne: 'eliminado' } })
+  .populate({
+    path: 'pet',
+    model: 'Pet',		
+    populate: { 
+      path:  'user',
+      model: 'User',
+      match: { _id: id },
     }
   });
 
