@@ -1,10 +1,10 @@
 
-const 
+const
   express = require('express'),
   router = express.Router();
 
 // Imports controllers
-const 
+const
   userCtrl = require('./controller/user.controller'),
   petCtrl = require('./controller/pet.controller'),
   publicationCtrl = require('./controller/publication.controller'),
@@ -32,19 +32,19 @@ router.delete('/pet/:id', petCtrl.deletePet);
 router.get('/publication', publicationCtrl.getPublications);
 router.get('/publication/user/:id', publicationCtrl.getUserPublications);
 router.post('/publication', publicationCtrl.createPublication);
-router.get('/publication/:id', publicationCtrl.getPublication);
+router.get('/publication/:id', publicationCtrl.getPublicacion);
 router.put('/publication/:id', publicationCtrl.editPublication);
 router.delete('/publication/:id', publicationCtrl.deletePublication);
 
-router.post('/publication/:id', publicationCtrl.addPostulant); 
+router.post('/publication/:id', publicationCtrl.addPostulant);
 
 // IMAGE
 router.get('/image/:id', imageCtrl.getImage);
-router.post('/image', imageCtrl.createImage);  
-
+router.post('/image', imageCtrl.createImage);
 
 // SOLICITUDES
 router.get('/solicitud', solicitudCtrl.getSolicitudes);
-// router.post('/solicitud', solicitudCtrl.createImage);  
+router.put('/aceptarSolicitud/:id', solicitudCtrl.putAceptarSolicitante);
+router.put('/rechazarSolicitud/:id', solicitudCtrl.putRechazarSolicitante);
 
 module.exports = router;
