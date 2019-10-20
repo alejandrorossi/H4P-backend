@@ -32,7 +32,7 @@ router.delete('/pet/:id', petCtrl.deletePet);
 router.get('/publication', publicationCtrl.getPublications);
 router.get('/publication/user/:id', publicationCtrl.getUserPublications);
 router.post('/publication', publicationCtrl.createPublication);
-router.get('/publication/:id', publicationCtrl.getPublicacion);
+router.get('/publication/:id', publicationCtrl.getPublication);
 router.put('/publication/:id', publicationCtrl.editPublication);
 router.delete('/publication/:id', publicationCtrl.deletePublication);
 
