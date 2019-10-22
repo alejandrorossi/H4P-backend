@@ -21,7 +21,7 @@ petCtrl.getPet = async (req, res) => {
   const pet = await Pet.findById(req.params.id);
   if(!pet) return res.json(new ApiResponse('Mascota no encontrada', 404, pet));
 
-  res.json(new ApiResponse('Mascota encontrada', 200, user));
+  res.json(new ApiResponse('Mascota encontrada', 200, pet));
 };
 
 petCtrl.createPet = async (req, res) => {
@@ -71,8 +71,7 @@ petCtrl.editPet = async (req, res) => {
       typeAge: req.body.typeAge,
       birth: req.body.birth,
       type: req.body.type,
-      description: req.body.description,
-      user: req.body.user._id
+      description: req.body.description
     };
 
   try {
@@ -81,7 +80,8 @@ petCtrl.editPet = async (req, res) => {
     return res.json(new ApiResponse('Error al actualizar', 400, pet, e));
   }
 
-  res.json(new ApiResponse('Mascota actualizada', 200, pet));
+  const retPet = await Pet.findById(id).populate('user');
+  res.json(new ApiResponse('Mascota actualizada', 200, retPet));
 };
 
 petCtrl.deletePet = async (req, res) => {
