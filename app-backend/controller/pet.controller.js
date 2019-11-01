@@ -26,22 +26,7 @@ petCtrl.getPet = async (req, res) => {
 
 petCtrl.createPet = async (req, res) => {
   //Primero se guardan las imagenes
-  let images = [];
-  for(let i of req.body.images){
-    i.path = `/app-backend/public/image`;
-    i.name = `${bcrypt.hashSync("imagen").replace(/\//g, "slash")}-${i.title}.${i.extension}`;
-    
-    let dataImage = i.data.replace(`data:image/${i.extension};base64,`, "");
-    fs.writeFileSync(`${process.cwd()}${i.path}/${i.name}`,dataImage,'base64');
-
-    i.data = '';
-    try {
-      let image = await ImageController.saveImage(i);
-      images.push(image.data)
-    } catch (error) {
-      res.json(new ApiResponse('Error al guardar imagenes', 400, {}, e));
-    }
-  }
+  let images = await guardarImagenes(req);
 
   const pet = new Pet({ 
     name: req.body.name,
@@ -63,6 +48,9 @@ petCtrl.createPet = async (req, res) => {
 };
 
 petCtrl.editPet = async (req, res) => {
+  //Primero se guardan las imagenes
+  let images = await guardarImagenes(req);
+
   const 
     { id } = req.params,
     pet = {
@@ -71,7 +59,8 @@ petCtrl.editPet = async (req, res) => {
       typeAge: req.body.typeAge,
       birth: req.body.birth,
       type: req.body.type,
-      description: req.body.description
+      description: req.body.description,
+      images: images
     };
 
   try {
@@ -82,6 +71,29 @@ petCtrl.editPet = async (req, res) => {
 
   const retPet = await Pet.findById(id).populate('user');
   res.json(new ApiResponse('Mascota actualizada', 200, retPet));
+};
+
+//TODO: hay que hacer la eliminacion de las imagenes cambiadas.
+async function guardarImagenes(req) {
+  //Primero se guardan las imagenes
+  let images = [];
+  for(let i of req.body.images){
+    i.path = `/app-backend/public/image`;
+    i.name = `${bcrypt.hashSync("imagen").replace(/\//g, "slash")}-${i.title}.${i.extension}`;
+    
+    let dataImage = i.data.replace(`data:image/${i.extension};base64,`, "");
+    fs.writeFileSync(`${process.cwd()}${i.path}/${i.name}`,dataImage,'base64');
+
+    i.data = '';
+    try {
+      let image = await ImageController.saveImage(i);
+      images.push(image.data)
+    } catch (error) {
+      res.json(new ApiResponse('Error al guardar imagenes', 400, {}, e));
+    }
+  }
+
+  return images;
 };
 
 petCtrl.deletePet = async (req, res) => {
