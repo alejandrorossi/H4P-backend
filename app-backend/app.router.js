@@ -31,6 +31,7 @@ router.delete('/pet/:id', petCtrl.deletePet);
 // PUBLICATION
 router.get('/publication', publicationCtrl.getPublications);
 router.get('/publication/user/:id', publicationCtrl.getUserPublications);
+router.get('/publication/other/:id', publicationCtrl.getOtherPublications);
 router.post('/publication', publicationCtrl.createPublication);
 router.get('/publication/:id', publicationCtrl.getPublication);
 router.put('/publication/:id', publicationCtrl.editPublication);

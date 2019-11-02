@@ -1,4 +1,5 @@
 const
+  mongoose = require('mongoose'),
   Publication = require('../model/db/publication.db'),
   User = require('../model/db/user.db'),
   Application = require('../model/db/application.db');
@@ -23,18 +24,47 @@ publicationCtrl.getPublications = async (req, res) => {
 publicationCtrl.getUserPublications = async (req, res) => {
   const { id } = req.params;
 
-  const publications = await Publication.find({ status: { $ne: 'eliminado' } })
+  const publications = await Publication
+  .find({ status: { $ne: 'eliminado' } })
   .populate({
     path: 'pet',
     model: 'Pet',		
     populate: { 
       path:  'user',
-      model: 'User',
-      match: { _id: id },
+      model: 'User'
     }
   });
 
-  res.json(new ApiResponse('Publicaciones encontradas', 200, publications));
+  let ret = [];
+  for(p of publications){
+    if(p.pet.user._id == id)
+      ret.push(p)
+  }
+
+  res.json(new ApiResponse('Publicaciones encontradas', 200, ret));
+};
+
+publicationCtrl.getOtherPublications = async (req, res) => {
+  const { id } = req.params;
+
+  const publications = await Publication
+  .find({ status: { $ne: 'eliminado' } })
+  .populate({
+    path: 'pet',
+    model: 'Pet',		
+    populate: { 
+      path:  'user',
+      model: 'User'
+    }
+  });
+
+  let ret = [];
+  for(p of publications){
+    if(p.pet.user._id != id)
+      ret.push(p)
+  }
+
+  res.json(new ApiResponse('Publicaciones encontradas', 200, ret));
 };
 
 publicationCtrl.getPublication = async (req, res) => {
