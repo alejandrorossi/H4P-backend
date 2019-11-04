@@ -45,6 +45,8 @@ router.post('/image', imageCtrl.createImage);
 
 // SOLICITUDES
 router.get('/solicitud', solicitudCtrl.getSolicitudes);
+router.get('/solicitudesAceptadas', solicitudCtrl.getSolicitudesAceptadas);
+router.get('/solicitudesPendientes', solicitudCtrl.getSolicitudesPendientes);
 router.put('/aceptarSolicitud/:id', solicitudCtrl.putAceptarSolicitante);
 router.put('/rechazarSolicitud/:id', solicitudCtrl.putRechazarSolicitante);
 
