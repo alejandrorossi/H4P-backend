@@ -161,4 +161,31 @@ publicationCtrl.addPostulant = async (req, res) => {
   }
 };
 
+publicationCtrl.filtrarPublicaciones = async (req, res) => {
+  const { filtro } = req.body;
+
+  console.log('AAAAAAAAAAAAAA')
+  console.log(req.body)
+  // construccion dinamica de query
+  // try {
+  //   const user = await User.findById(id);
+  //   if (!user) new ApiResponse('Usuario no encontrado', 404, {});
+
+  //   const publication = await Publication.findById(req.body.publication);
+  //   if (!publication) return new ApiResponse('Publicacion no encontrada', 404, {}, e);
+
+  //   let application = new Application({
+  //     user: user
+  //   });
+  //   await application.save();
+
+  //   publication.applications.push(application);
+  //   await publication.save();
+
+  //   res.json(new ApiResponse('Postulante agregado', 200, publication));
+  // } catch (e) {
+  //   return res.json(new ApiResponse('Error al agregar postulante', 400, {}, e));
+  // }
+};
+
 module.exports = publicationCtrl;
