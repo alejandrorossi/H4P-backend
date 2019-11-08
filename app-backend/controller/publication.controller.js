@@ -162,29 +162,49 @@ publicationCtrl.addPostulant = async (req, res) => {
 };
 
 publicationCtrl.filtrarPublicaciones = async (req, res) => {
-  const { filtro } = req.body;
+  const filtro = req.body.params;
+  // { desde: '2019-11-20T03:00:00.000Z',
+  // hasta: '2019-11-20T03:00:00.000Z',
+  // especie: 'ga',
+  // texto: 'hkj',
+  // privada: true,
+  // publica: false }
 
-  console.log('AAAAAAAAAAAAAA')
-  console.log(req.body)
+  // console.log(filtro)
+
+  // { applications: { $exists: true, $ne: [], $elemMatch: { status:  "aceptado"} } }
+
+  // { 'applications.status':  { $nin:["aceptado"]  } }
+  
+  // { applications: { $exists: true, $ne: [] } }
+
+  let query ={};
+  query.sarasa={hola:{a:"a"}}
+
+  console.log(query)
+  // if (filtro)
+
+  // if (filtro)
+
+  // if (filtro)
+
+  // if (filtro)
+
+  // if (filtro)
+
+  // if (filtro)
+
   // construccion dinamica de query
+
+  // query = arsasa;
   // try {
-  //   const user = await User.findById(id);
-  //   if (!user) new ApiResponse('Usuario no encontrado', 404, {});
 
   //   const publication = await Publication.findById(req.body.publication);
-  //   if (!publication) return new ApiResponse('Publicacion no encontrada', 404, {}, e);
+  //   if (!publication) return new ApiResponse('Publicaciones no encontradas.', 404, {}, e);
 
-  //   let application = new Application({
-  //     user: user
-  //   });
-  //   await application.save();
-
-  //   publication.applications.push(application);
-  //   await publication.save();
-
-  //   res.json(new ApiResponse('Postulante agregado', 200, publication));
+  //   res.json(new ApiResponse('Publicaciones encontradas.', 200, publication));
   // } catch (e) {
-  //   return res.json(new ApiResponse('Error al agregar postulante', 400, {}, e));
+  //   return res.json(new ApiResponse('Error al agregar postulante.', 400, {}, e));
   // }
 };
 
