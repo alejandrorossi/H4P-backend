@@ -76,7 +76,7 @@ userCtrl.editUser = async (req, res) => {
       name: req.body.name,
       surname: req.body.surname,
       username: req.body.username,
-      password: req.body.password,
+      // password: req.body.password,
       age: req.body.age,
       email: req.body.email
     };
