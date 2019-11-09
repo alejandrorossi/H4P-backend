@@ -1,12 +1,10 @@
   //This controller is data manager of the database
 //Import user model to consult database.
-const User = require('../model/db/user.db');
-
-const
-  bcrypt  =  require('bcryptjs')//module to hash password
-
-const
-  ApiResponse = require('../model/api.response');
+const 
+  User = require('../model/db/user.db'),
+  bcrypt  =  require('bcryptjs'),//module to hash password
+  ApiResponse = require('../model/api.response'),
+  roles = require('../roles');
 
 const userCtrl = {}
 
@@ -24,7 +22,8 @@ userCtrl.createUser = async (req, res) => {
     username: req.body.username,
     password:  bcrypt.hashSync(req.body.password),
     age: req.body.age,
-    email: req.body.email
+    email: req.body.email,
+    roles: roles.getIdsRoles()
   });
 
   try{

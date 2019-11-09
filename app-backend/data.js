@@ -3,7 +3,8 @@ const
   Publication = require('./model/db/publication.db'),
   User = require('./model/db/user.db'),
   Image = require('./model/db/image.db'),
-  Application = require('./model/db/application.db');
+  Application = require('./model/db/application.db'),
+  roles = require('./roles');
 
 const data = {}
 
@@ -26,7 +27,8 @@ data.loadData = async (req, res) => {
         "username": "refugio",
         "password": "$2a$10$IUBUd.fkWAnKZ43zfWw.wuHKkyrdotlbMdj1D7xV8ENfIAZNgkfdS",
         "age": 18,
-        "email": "refugio@gmail.com"
+        "email": "refugio@gmail.com",
+        "roles": roles.getIdsRoles()
       },
       {
         "name": "nombre-post",
@@ -34,7 +36,8 @@ data.loadData = async (req, res) => {
         "username": "postulante",
         "password": "$2a$10$IUBUd.fkWAnKZ43zfWw.wuHKkyrdotlbMdj1D7xV8ENfIAZNgkfdS",
         "age": 20,
-        "email": "postulante@gmail.com"
+        "email": "postulante@gmail.com",
+        "roles": ["postulante"]
       }
     ]);
   
