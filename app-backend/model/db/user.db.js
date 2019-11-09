@@ -39,6 +39,10 @@ var user_schema = new Schema({
     require: true, 
     match: email_match
   },
+  roles: {
+    type: [String],
+    default: []
+  },
   createdDate: { 
     type: Date, 
     default: Date.now 

@@ -3,7 +3,8 @@ const
   Publication = require('./model/db/publication.db'),
   User = require('./model/db/user.db'),
   Image = require('./model/db/image.db'),
-  Application = require('./model/db/application.db');
+  Application = require('./model/db/application.db'),
+  roles = require('./roles');
 
 const data = {}
 
@@ -19,24 +20,28 @@ data.loadData = async (req, res) => {
     await Application.deleteMany();
 
     const users = await User.insertMany(
-      [
-        {
-          "name": "refugio",
-          "surname": "refugio",
-          "username": "refugio",
-          "password": "$2a$10$IUBUd.fkWAnKZ43zfWw.wuHKkyrdotlbMdj1D7xV8ENfIAZNgkfdS",
-          "age": 18,
-          "email": "refugio@gmail.com"
-        },
-        {
-          "name": "nombre-post",
-          "surname": "apellido-post",
-          "username": "postulante",
-          "password": "$2a$10$IUBUd.fkWAnKZ43zfWw.wuHKkyrdotlbMdj1D7xV8ENfIAZNgkfdS",
-          "age": 20,
-          "email": "postulante@gmail.com"
-        }
-      ]);
+
+    [
+      {
+        "name": "refugio",
+        "surname": "refugio",
+        "username": "refugio",
+        "password": "$2a$10$IUBUd.fkWAnKZ43zfWw.wuHKkyrdotlbMdj1D7xV8ENfIAZNgkfdS",
+        "age": 18,
+        "email": "refugio@gmail.com",
+        "roles": roles.getIdsRoles()
+      },
+      {
+        "name": "nombre-post",
+        "surname": "apellido-post",
+        "username": "postulante",
+        "password": "$2a$10$IUBUd.fkWAnKZ43zfWw.wuHKkyrdotlbMdj1D7xV8ENfIAZNgkfdS",
+        "age": 20,
+        "email": "postulante@gmail.com",
+        "roles": ["postulante"]
+      }
+    ]);
+  
 
     console.log("Se insertaron 2 documentos en coleccion: Users");
 
