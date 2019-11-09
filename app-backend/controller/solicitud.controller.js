@@ -5,14 +5,13 @@ const solicitudCtrl = {};
 
 //saca a los que tengan un acetado
 solicitudCtrl.getSolicitudesPendientes = async (req, res) => {
-  const query = { 'applications.status':  { $nin:["aceptado"]  } } ;
+  const query = { 'applications.status': { $nin: ["aceptado"] }, applications: { $exists: true, $ne: [] } };
 
   requestSolicitudes(query, req, res);
 };
 
-
 solicitudCtrl.getSolicitudesAceptadas = async (req, res) => {
-  const query = { applications: { $exists: true, $ne: [], $elemMatch: { status:  "aceptado"} } };
+  const query = { applications: { $exists: true, $ne: [], $elemMatch: { status: "aceptado" } } };
   requestSolicitudes(query, req, res);
 };
 
@@ -21,9 +20,8 @@ solicitudCtrl.getSolicitudes = async (req, res) => {
   requestSolicitudes(query, req, res);
 };
 
-
-async function  requestSolicitudes(query, req, res) {
-  const publicaciones = await Publication.find(query).populate('pet').populate( 'applications.user')
+async function requestSolicitudes(query, req, res) {
+  const publicaciones = await Publication.find(query).populate('pet').populate('applications.user')
 
   if (!publicaciones) new ApiResponse('Publicaciones no encontradas', 404, {});
 

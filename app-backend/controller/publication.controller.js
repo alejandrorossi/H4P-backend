@@ -10,14 +10,14 @@ const publicationCtrl = {}
 //Get
 publicationCtrl.getPublications = async (req, res) => {
   const publications = await Publication.find({ status: { $ne: 'eliminado' } })
-  .populate({
-    path: 'pet',
-    model: 'Pet',		
-    populate: { 
-      path:  'user',
-      model: 'User'
-    }
-  });
+    .populate({
+      path: 'pet',
+      model: 'Pet',
+      populate: {
+        path: 'user',
+        model: 'User'
+      }
+    });
   res.json(new ApiResponse('Publicaciones encontradas', 200, publications));
 };
 
@@ -25,19 +25,19 @@ publicationCtrl.getUserPublications = async (req, res) => {
   const { id } = req.params;
 
   const publications = await Publication
-  .find({ status: { $ne: 'eliminado' } })
-  .populate({
-    path: 'pet',
-    model: 'Pet',		
-    populate: { 
-      path:  'user',
-      model: 'User'
-    }
-  });
+    .find({ status: { $ne: 'eliminado' } })
+    .populate({
+      path: 'pet',
+      model: 'Pet',
+      populate: {
+        path: 'user',
+        model: 'User'
+      }
+    });
 
   let ret = [];
-  for(p of publications){
-    if(p.pet.user._id == id)
+  for (p of publications) {
+    if (p.pet.user._id == id)
       ret.push(p)
   }
 
@@ -48,19 +48,19 @@ publicationCtrl.getOtherPublications = async (req, res) => {
   const { id } = req.params;
 
   const publications = await Publication
-  .find({ status: { $ne: 'eliminado' } })
-  .populate({
-    path: 'pet',
-    model: 'Pet',		
-    populate: { 
-      path:  'user',
-      model: 'User'
-    }
-  });
+    .find({ status: { $ne: 'eliminado' } })
+    .populate({
+      path: 'pet',
+      model: 'Pet',
+      populate: {
+        path: 'user',
+        model: 'User'
+      }
+    });
 
   let ret = [];
-  for(p of publications){
-    if(p.pet.user._id != id)
+  for (p of publications) {
+    if (p.pet.user._id != id)
       ret.push(p)
   }
 
@@ -69,16 +69,16 @@ publicationCtrl.getOtherPublications = async (req, res) => {
 
 publicationCtrl.getPublication = async (req, res) => {
   const publication = await Publication.findById(req.params.id)
-  .populate({
-    path: 'pet',
-    model: 'Pet',		
-    populate: { 
-      path:  'user',
-      model: 'User'
-    }
-  });
-  
-  if(!publication) return res.json(new ApiResponse('Mascota no encontrada', 404, publication));
+    .populate({
+      path: 'pet',
+      model: 'Pet',
+      populate: {
+        path: 'user',
+        model: 'User'
+      }
+    });
+
+  if (!publication) return res.json(new ApiResponse('Mascota no encontrada', 404, publication));
 
   res.json(new ApiResponse('Publicacion encontrada', 200, publication));
 }
@@ -98,28 +98,28 @@ publicationCtrl.createPublication = async (req, res) => {
 };
 
 publicationCtrl.editPublication = async (req, res) => {
-  const 
-  { id } = req.params,
-  publication = {
-    status: req.body.status,
-    pet: req.body.pet
-  };
+  const
+    { id } = req.params,
+    publication = {
+      status: req.body.status,
+      pet: req.body.pet
+    };
 
   try {
-    await Publication.updateOne({ _id: id }, {$set: publication}, {new: true});
+    await Publication.updateOne({ _id: id }, { $set: publication }, { new: true });
   } catch (e) {
     return res.json(new ApiResponse('Error al actualizar', 400, publication, e));
   }
 
   const retPublication = await Publication.findById(id)
-  .populate({
-    path: 'pet',
-    model: 'Pet',		
-    populate: { 
-      path:  'user',
-      model: 'User'
-    }
-  });
+    .populate({
+      path: 'pet',
+      model: 'Pet',
+      populate: {
+        path: 'user',
+        model: 'User'
+      }
+    });
   res.json(new ApiResponse('Publicación actualizada', 200, retPublication));
 };
 
@@ -163,49 +163,55 @@ publicationCtrl.addPostulant = async (req, res) => {
 
 publicationCtrl.filtrarPublicaciones = async (req, res) => {
   const filtro = req.body.params;
-  // { desde: '2019-11-20T03:00:00.000Z',
-  // hasta: '2019-11-20T03:00:00.000Z',
-  // especie: 'ga',
-  // texto: 'hkj',
-  // privada: true,
-  // publica: false }
+  let query = {};
 
-  // console.log(filtro)
-
-  // { applications: { $exists: true, $ne: [], $elemMatch: { status:  "aceptado"} } }
-
-  // { 'applications.status':  { $nin:["aceptado"]  } }
-  
-  // { applications: { $exists: true, $ne: [] } }
-
-  let query ={};
-  query.sarasa={hola:{a:"a"}}
-
-  console.log(query)
-  // if (filtro)
-
-  // if (filtro)
-
-  // if (filtro)
-
-  // if (filtro)
-
-  // if (filtro)
-
-  // if (filtro)
-
-  // construccion dinamica de query
-
-  // query = arsasa;
-  // try {
-
-  //   const publication = await Publication.findById(req.body.publication);
-  //   if (!publication) return new ApiResponse('Publicaciones no encontradas.', 404, {}, e);
-
-  //   res.json(new ApiResponse('Publicaciones encontradas.', 200, publication));
-  // } catch (e) {
-  //   return res.json(new ApiResponse('Error al agregar postulante.', 400, {}, e));
+  // if (filtro.desde) {
+  //   query.createdDate = {
+  //     $gte: new Date(filtro.desde)
+  //   }
+  // } else if (filtro.desde && filtro.hasta) {
+  //   query.createdDate = {
+  //     $gte: new Date(filtro.desde),
+  //     $lt: new Date(filtro.hasta)
+  //   }
+  // } else if (filtro.hasta) {
+  //   query.createdDate = {
+  //     $lt: new Date(filtro.hasta)
+  //   }
   // }
+
+  if (filtro.publica && !filtro.privada) {
+    query.status = { $eq: "publico" }
+  } else if (filtro.privada && !filtro.publica) {
+    query.status = { $eq: "privado" }
+  } else {
+    query.status = { $ne: "eliminado" }
+  }
+
+  if (filtro.especie ) { 
+    query.pet = { type : { $eq : filtro.especie } }
+  }
+
+  // if (filtro.texto) {
+  // const val = filtro.texto;
+
+  // query.pet = {
+  // description: { $regex: val, $options: 'i' },
+  // name: /.*"b".*/ ,
+  // age: { $regex: val, $options: 'i' }
+  // }
+  // }
+  console.log(query)
+  try {
+    const publication = await Publication.find(query).populate('pet, user');
+
+    console.log(publication)
+    if (!publication) return new ApiResponse('Publicaciones no encontradas.', 404, {}, e);
+
+    res.json(new ApiResponse('Publicaciones encontradas.', 200, publication));
+  } catch (e) {
+    return res.json(new ApiResponse('Error al filtrar publicaciones.', 400, {}, e));
+  }
 };
 
 module.exports = publicationCtrl;
