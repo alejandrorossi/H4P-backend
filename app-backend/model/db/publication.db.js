@@ -1,7 +1,6 @@
 const
   mongoose = require('mongoose'),
   { Schema } = mongoose,
-  Application = require('./application.db').schema,
   status = ["publico", "privado", "eliminado"];
 
 var publication_schema = new Schema({
@@ -10,7 +9,10 @@ var publication_schema = new Schema({
     ref: "Pet"
   },
   applications: { 
-    type: [Application],
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Application'
+    }],
     default: []
   },
   status: {
