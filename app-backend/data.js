@@ -76,27 +76,30 @@ data.loadData = async (req, res) => {
           "age": 5,
           "birth": "2019-01-01T00:00:00.000Z",
           "type": "Perro",
-          "description": "Es un perro muy guardian",
+          "description": "Es un perro muy guardian, fue creado en noviembre.",
           "user": user,
-          "images": [image]
+          "images": [image],
+          "createdDate": "2019-11-12T23:14:39.805Z"
         },
         {
           "name": "Rigoberta",
           "age": 3,
           "birth": "2019-01-01T00:00:00.000Z",
           "type": "Gato",
-          "description": "Una gatita muy buena onda",
+          "description": "Una gatita muy buena onda, fue creado en mayo.",
           "user": user,
-          "images": images[1]
+          "images": images[1],
+          "createdDate": "2019-05-12T23:14:39.805Z"
         },
         {
           "name": "Tyson II",
           "age": 5,
           "birth": "2019-01-01T00:00:00.000Z",
           "type": "Perro",
-          "description": "Este no es nada guardian",
+          "description": "Este no es nada guardian, fue creado en septiembre.",
           "user": user,
-          "images": [image]
+          "images": [image],
+          "createdDate": "2019-09-12T23:14:39.805Z"
         },
       ]);
 

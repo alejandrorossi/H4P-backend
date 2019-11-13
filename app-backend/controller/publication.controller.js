@@ -164,34 +164,31 @@ publicationCtrl.addPostulant = async (req, res) => {
 publicationCtrl.filtrarPublicaciones = async (req, res) => {
   const filtro = req.body.params;
   let query = {};
+  let contentQuery = []
 
   // if (filtro.desde) {
-  //   query.createdDate = {
-  //     $gte: new Date(filtro.desde)
-  //   }
+  //   contentQuery.push({ createdDate: { $gte: new Date(filtro.desde) } });
   // } else if (filtro.desde && filtro.hasta) {
-  //   query.createdDate = {
-  //     $gte: new Date(filtro.desde),
-  //     $lt: new Date(filtro.hasta)
-  //   }
+  //   quecontentQuery.push({
+  //     createdDate: { $gte: new Date(filtro.desde), $lt: new Date(filtro.hasta) } });
   // } else if (filtro.hasta) {
-  //   query.createdDate = {
-  //     $lt: new Date(filtro.hasta)
-  //   }
+  //   contentQuery.push({ createdDate: { $lt: new Date(filtro.hasta) } });
   // }
 
   if (filtro.publica && !filtro.privada) {
-    query.status = { $eq: "publico" }
+    contentQuery.push({ status: { $eq: "publico" } });
   } else if (filtro.privada && !filtro.publica) {
-    query.status = { $eq: "privado" }
+    contentQuery.push({ status: { $eq: "privado" } });
   } else {
-    query.status = { $ne: "eliminado" }
+    contentQuery.push({ status: { $ne: "eliminado" } });
   }
 
-  if (filtro.especie ) { 
-    query.pet = { type : { $eq : filtro.especie } }
-  }
+  // TODO: arreglar este filtro
+  // if (filtro.especie) {
+  //   contentQuery.push({ pet: { type: { $eq: filtro.especie } } });
+  // }
 
+  // probar este luego de arreglar el anterior
   // if (filtro.texto) {
   // const val = filtro.texto;
 
@@ -201,15 +198,18 @@ publicationCtrl.filtrarPublicaciones = async (req, res) => {
   // age: { $regex: val, $options: 'i' }
   // }
   // }
+  query = { $and: contentQuery }
   console.log(query)
   try {
-    const publication = await Publication.find(query).populate('pet, user');
+    const publication = await Publication.find(query).populate('pet').find({$and:[{ pet: { type: { $eq: filtro.especie } } }]});
 
     console.log(publication)
     if (!publication) return new ApiResponse('Publicaciones no encontradas.', 404, {}, e);
 
     res.json(new ApiResponse('Publicaciones encontradas.', 200, publication));
   } catch (e) {
+    // console.log("explota todo")
+    console.log(e)
     return res.json(new ApiResponse('Error al filtrar publicaciones.', 400, {}, e));
   }
 };
