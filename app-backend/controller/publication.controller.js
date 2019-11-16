@@ -135,7 +135,6 @@ publicationCtrl.addPostulant = async (req, res) => {
 
 publicationCtrl.filtrarPublicaciones = async (req, res) => {
   const filtro = req.body.params;
-  let queryPublicacion = {};
   let queryMascota = {};
   let contentQueryPublication = [];
 
@@ -147,35 +146,35 @@ publicationCtrl.filtrarPublicaciones = async (req, res) => {
     contentQueryPublication.push({ status: { $ne: "eliminado" } });
   }
 
-  if (filtro.especie) {
+  if (filtro.especie)
     queryMascota.type = filtro.especie;
-  }
 
-  if (filtro.texto) {
-    const val = filtro.texto;
+  if (filtro.texto)
     queryMascota.$or = [
-      { description: { $regex: val, $options: 'i' } },
+      { description: { $regex: filtro.texto, $options: 'i' } },
       { name: /.*"b".*/ }
-    ]
+    ];
+
+  if (filtro.desde && !filtro.hasta) {
+    contentQueryPublication.push({ createdDate: { $gte: new Date(filtro.desde) } });
+  } else if (filtro.desde && filtro.hasta) {
+    contentQueryPublication.push({
+      createdDate: { $gte: new Date(filtro.desde), $lt: new Date(filtro.hasta) }
+    });
+  } else if (filtro.hasta && !filtro.desde) {
+    contentQueryPublication.push({ createdDate: { $lt: new Date(filtro.hasta) } });
   }
 
-queryPublicacion = { $and: contentQueryPublication }
+  try {
+    const prePublicaciones = await Publication.find({ $and: contentQueryPublication });
+    const mascotas = await Pet.find(queryMascota);
+    const definitiva = await Publication.find({ pet: { $in: mascotas }, _id: { $in: prePublicaciones } }).populate('pet');
 
+    res.json(new ApiResponse('Publicaciones encontradas.', 200, definitiva));
+  } catch (e) {
 
-try {
-
-  const prePublicaciones = await Publication.find(queryPublicacion);
-
-  const mascotas = await Pet.find(queryMascota);
-
-  const definitiva = await Publication.find({ pet: { $in: mascotas }, _id: { $in: prePublicaciones } }).populate('pet');
-
-
-  res.json(new ApiResponse('Publicaciones encontradas.', 200, definitiva));
-} catch (e) {
-
-  return res.json(new ApiResponse('Error al filtrar publicaciones.', 400, {}, e));
-}
+    return res.json(new ApiResponse('Error al filtrar publicaciones.', 400, {}, e));
+  }
 };
 
 module.exports = publicationCtrl;
