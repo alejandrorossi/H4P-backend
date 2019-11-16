@@ -125,7 +125,8 @@ data.loadData = async (req, res) => {
           "type": "Perro",
           "description": "Es un perro muy guardian",
           "user": refugiouno,
-          "images": [perro]
+          "images": [perro],
+          "createdDate": "2019-11-12T23:14:39.805Z"
         },
         {
           "name": "Rigoberta",
@@ -134,7 +135,8 @@ data.loadData = async (req, res) => {
           "type": "Gato",
           "description": "Una gatita muy buena onda",
           "user": refugiouno,
-          "images": [gato]
+          "images": [gato],
+          "createdDate": "2019-05-12T23:14:39.805Z"
         },
         {
           "name": "Frank",

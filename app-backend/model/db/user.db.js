@@ -1,6 +1,7 @@
 const 
   mongoose = require('mongoose'),
-  { Schema } = mongoose;
+  { Schema } = mongoose,
+  roles = require('../../roles');
 
 //Validation for mail.
 var email_match = [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Formato de imail inválido"];
@@ -41,7 +42,7 @@ var user_schema = new Schema({
   },
   roles: {
     type: [String],
-    default: []
+    default: ["postulante"]
   },
   createdDate: { 
     type: Date, 
