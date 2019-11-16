@@ -37,16 +37,16 @@ router.get('/publication/:id', publicationCtrl.getPublication);
 router.put('/publication/:id', publicationCtrl.editPublication);
 router.delete('/publication/:id', publicationCtrl.deletePublication);
 router.post('/publication/:id', publicationCtrl.addPostulant);
-router.post('/buscarFiltradas', publicationCtrl.filtrarPublicaciones);
+router.post('/publication/buscarFiltradas', publicationCtrl.filtrarPublicaciones);
 
 // IMAGE
 router.get('/image/:id', imageCtrl.getImage);
 router.post('/image', imageCtrl.createImage);
 
 // SOLICITUDES
-router.get('/solicitud', solicitudCtrl.getSolicitudes);
-router.get('/solicitudesAceptadas', solicitudCtrl.getSolicitudesAceptadas);
-router.get('/solicitudesPendientes', solicitudCtrl.getSolicitudesPendientes);
+router.get('/solicitud/:id', solicitudCtrl.getSolicitudes);
+router.get('/solicitudesAceptadas/:id', solicitudCtrl.getSolicitudesAceptadas);
+router.get('/solicitudesPendientes/:id', solicitudCtrl.getSolicitudesPendientes);
 router.put('/aceptarSolicitud/:id', solicitudCtrl.putAceptarSolicitante);
 router.put('/rechazarSolicitud/:id', solicitudCtrl.putRechazarSolicitante);
 

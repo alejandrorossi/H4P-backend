@@ -21,14 +21,24 @@ solicitudCtrl.getSolicitudes = async (req, res) => {
 };
 
 async function requestSolicitudes(query, req, res) {
-  const publicaciones = await Publication.find(query).populate('pet').populate('applications.user')
+  const { id } = req.params;
+  let ret = [];
 
-  if (!publicaciones) new ApiResponse('Publicaciones no encontradas', 404, {});
+  const publicaciones = await Publication.find(query)
+  .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
+  .populate({ path: 'applications', model: 'Application', populate: { path: 'user', model: 'User' } });
+
+  publicaciones.forEach(function (p, indice, array) {
+    if (p.pet.user._id == id)
+      ret.push(p)
+  });
+
+  if (!ret) new ApiResponse('Publicaciones no encontradas', 404, {});
 
   if (publicaciones.length < 1)
     res.json(new ApiResponse('No hay nuevas postulaciones', 200));
   else
-    res.json(new ApiResponse('Publicaciones con solicitudes encontradas', 200, publicaciones));
+    res.json(new ApiResponse('Publicaciones con solicitudes encontradas', 200, ret));
 }
 
 solicitudCtrl.putAceptarSolicitante = async (req, res) => {
