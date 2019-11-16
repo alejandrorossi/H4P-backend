@@ -22,8 +22,7 @@ userCtrl.createUser = async (req, res) => {
     username: req.body.username,
     password:  bcrypt.hashSync(req.body.password),
     age: req.body.age,
-    email: req.body.email,
-    roles: roles.getIdsRoles()
+    email: req.body.email
   });
 
   try{
