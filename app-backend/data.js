@@ -23,29 +23,50 @@ data.loadData = async (req, res) => {
 
     [
       {
-        "name": "refugio",
-        "surname": "refugio",
-        "username": "refugio",
+        "name": "Refu",
+        "surname": "Giouno",
+        "username": "refugiouno",
         "password": "$2a$10$IUBUd.fkWAnKZ43zfWw.wuHKkyrdotlbMdj1D7xV8ENfIAZNgkfdS",
-        "age": 18,
-        "email": "refugio@gmail.com",
+        "age": 20,
+        "email": "refugiouno@gmail.com",
         "roles": roles.getIdsRoles()
       },
       {
-        "name": "nombre-post",
-        "surname": "apellido-post",
-        "username": "postulante",
+        "name": "Casita",
+        "surname": "Mascotera",
+        "username": "refugiodos",
         "password": "$2a$10$IUBUd.fkWAnKZ43zfWw.wuHKkyrdotlbMdj1D7xV8ENfIAZNgkfdS",
         "age": 20,
-        "email": "postulante@gmail.com",
+        "email": "refugiodos@gmail.com",
+        "roles": roles.getIdsRoles()
+      },
+      {
+        "name": "Postu",
+        "surname": "Lantero",
+        "username": "postulante",
+        "password": "$2a$10$IUBUd.fkWAnKZ43zfWw.wuHKkyrdotlbMdj1D7xV8ENfIAZNgkfdS",
+        "age": 18,
+        "email": "postulanteuno@gmail.com",
+        "roles": ["postulante"]
+      },
+      {
+        "name": "Juan",
+        "surname": "Elcartero",
+        "username": "elcartero",
+        "password": "$2a$10$IUBUd.fkWAnKZ43zfWw.wuHKkyrdotlbMdj1D7xV8ENfIAZNgkfdS",
+        "age": 32,
+        "email": "elcartero@gmail.com",
         "roles": ["postulante"]
       }
     ]);
-  
 
-    console.log("Se insertaron 2 documentos en coleccion: Users");
+    console.log("Se insertaron 4 documentos en coleccion: Users");
 
-    const user = users[0];
+    const 
+      refugiouno = users[0],
+      refugiodos = users[1],
+      postulante = users[2],
+      elcartero = users[3];
 
     const images = await Image.insertMany(
       [
@@ -53,21 +74,47 @@ data.loadData = async (req, res) => {
           "title": "perro-01",
           "name": "HASH-perro-01.jpg",
           "extension": "jpg",
-          "creator": user,
+          "creator": refugiouno,
           "path": "/app-backend/public/image"
         },
         {
-          "title": "gato-01",
+          "title": "gato",
           "name": "gato.PNG",
           "extension": "PNG",
-          "creator": user,
+          "creator": refugiouno,
+          "path": "/app-backend/public/image"
+        },
+        {
+          "title": "perro-MIB",
+          "name": "perro-MIB.jpg",
+          "extension": "jpg",
+          "creator": refugiodos,
+          "path": "/app-backend/public/image"
+        },
+        {
+          "title": "pajaro-aceventura",
+          "name": "pajaro-aceventura.png",
+          "extension": "png",
+          "creator": refugiodos,
+          "path": "/app-backend/public/image"
+        },
+        {
+          "title": "gato-salem",
+          "name": "gato-salem.jpg",
+          "extension": "jpg",
+          "creator": refugiodos,
           "path": "/app-backend/public/image"
         }
       ]);
 
-    console.log("Se inserto 1 documento en coleccion: Images");
+    console.log("Se inserto 5 documento en coleccion: Images");
 
-    const image = images[0];
+    const 
+      perro = images[0],
+      gato = images[1],
+      perro_mib = images[2],
+      pajaro_aceventura = images[3],
+      gato_salem = images[4];
 
     const pets = await Pet.insertMany(
       [
@@ -76,9 +123,9 @@ data.loadData = async (req, res) => {
           "age": 5,
           "birth": "2019-01-01T00:00:00.000Z",
           "type": "Perro",
-          "description": "Es un perro muy guardian, fue creado en noviembre.",
-          "user": user,
-          "images": [image],
+          "description": "Es un perro muy guardian",
+          "user": refugiouno,
+          "images": [perro],
           "createdDate": "2019-11-12T23:14:39.805Z"
         },
         {
@@ -86,45 +133,95 @@ data.loadData = async (req, res) => {
           "age": 3,
           "birth": "2019-01-01T00:00:00.000Z",
           "type": "Gato",
-          "description": "Una gatita muy buena onda, fue creado en mayo.",
-          "user": user,
-          "images": images[1],
+          "description": "Una gatita muy buena onda",
+          "user": refugiouno,
+          "images": [gato],
           "createdDate": "2019-05-12T23:14:39.805Z"
         },
         {
-          "name": "Tyson II",
-          "age": 5,
+          "name": "Frank",
+          "age": 12,
           "birth": "2019-01-01T00:00:00.000Z",
           "type": "Perro",
-          "description": "Este no es nada guardian, fue creado en septiembre.",
-          "user": user,
-          "images": [image],
-          "createdDate": "2019-09-12T23:14:39.805Z"
+          "description": "Le gusta hablar mucho",
+          "user": refugiodos,
+          "images": [perro_mib]
+        },
+        {
+          "name": "Loreto",
+          "age": 7,
+          "birth": "2019-01-01T00:00:00.000Z",
+          "type": "Pajaro",
+          "description": "Canta muy bien",
+          "user": refugiodos,
+          "images": [pajaro_aceventura]
+        },
+        {
+          "name": "Salem",
+          "age": 10,
+          "birth": "2019-01-01T00:00:00.000Z",
+          "type": "Gato",
+          "description": "Buen amigo de brujas",
+          "user": refugiodos,
+          "images": [gato_salem]
         },
       ]);
 
-    console.log("Se insertaron 2 documentos en coleccion: Pets");
+    console.log("Se insertaron 5 documentos en coleccion: Pets");
 
-    const pet = pets[0];
+    const 
+      tyson = pets[0],
+      rigoberta = pets[1],
+      frank = pets[2],
+      loreto = pets[3],
+      salem = pets[4];
+
+    const applications = await Application.insertMany(
+      [
+        {
+          "user": postulante,
+          "status": "pendiente"
+        },
+        {
+          "user": elcartero,
+          "status": "pendiente"
+        }
+      ]
+    );
+
+    console.log("Se insertaron 5 documento en coleccion: Applications");
+
+    const 
+      appl_postulante = applications[0],
+      appl_elcartero = applications[1];
 
     const publications = await Publication.insertMany(
       [
         {
-          "pet": pet,
-          status: "publico"
+          "pet": tyson,
+          "status": "publico"
         },
         {
-          "pet": pets[1],
-          status: "publico"
-
+          "pet": rigoberta,
+          "status": "publico",
+          "applications": [appl_postulante, appl_elcartero]
         },
         {
-          "pet": pets[2],
-          status: "privado"
+          "pet": frank,
+          "status": "publico"
+        },
+        {
+          "pet": loreto,
+          "status": "privado"
+        },
+        {
+          "pet": salem,
+          "status": "privado"
         }
       ]);
 
-    console.log("Se insertaron 2 documento en coleccion: Publications");
+    console.log("Se insertaron 5 documento en coleccion: Publications");
+
   } catch (e) {
     console.log("Ocurrio un error en la carga de datos iniciales.");
     console.log(e);
