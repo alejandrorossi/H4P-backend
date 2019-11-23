@@ -18,7 +18,7 @@ router.post('/user', userCtrl.createUser);
 router.get('/user/:id', userCtrl.getUser);
 router.put('/user/:id', userCtrl.editUser);
 router.delete('/user/:id', userCtrl.deleteUser);
-router.put('/user/notification', userCtrl.editUser);
+router.put('/notification', userCtrl.notificarUsuario);
 
 // LOGIN
 router.post('/login', userCtrl.getUserForUsernamePassword);

@@ -101,9 +101,7 @@ userCtrl.deleteUser = async (req, res) => {
 };
 
 // mandar una notificacion al usuario
-userCtrl.notificarUsuario = async (req,res) => {
-  console.log(req.body);
-  console.log(req.params);
+userCtrl.notificarUsuario = async (req, res) => {
   const  userId = req.body.user;
   const message = req.body.message;
   let userDb;
@@ -116,7 +114,7 @@ userCtrl.notificarUsuario = async (req,res) => {
 
   try {
     userDB.notifications.push(message);
-    userDB.save();
+    await userDB.save();
   } catch (e) {
     return res.json(new ApiResponse('Error al guardar la notificacion', 400, {}, e));
   }
