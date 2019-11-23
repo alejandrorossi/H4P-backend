@@ -100,4 +100,29 @@ userCtrl.deleteUser = async (req, res) => {
   res.json(new ApiResponse('Usuario eliminado', 200));
 };
 
+// mandar una notificacion al usuario
+userCtrl.notificarUsuario = async (req,res) => {
+  console.log(req.body);
+  console.log(req.params);
+  const  userId = req.body.user;
+  const message = req.body.message;
+  let userDb;
+
+  try {
+    userDB = await User.findById(userId);
+  } catch (e) {
+    return res.json(new ApiResponse('Usuario no encontrado', 400, {}, e));
+  }
+
+  try {
+    userDB.notifications.push(message);
+    userDB.save();
+  } catch (e) {
+    return res.json(new ApiResponse('Error al guardar la notificacion', 400, {}, e));
+  }
+
+  res.json(new ApiResponse('Notificación enviada', 200));
+}
+
+
 module.exports = userCtrl;

@@ -47,7 +47,11 @@ var user_schema = new Schema({
   createdDate: { 
     type: Date, 
     default: Date.now 
-  }
+  },
+  notifications: { 
+    type: [String],
+    default: []
+  },
 });
 
 module.exports = mongoose.model('User', user_schema);
