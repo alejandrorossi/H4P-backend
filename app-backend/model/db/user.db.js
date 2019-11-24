@@ -50,8 +50,9 @@ var user_schema = new Schema({
   },
   notifications: { 
     type: [String],
-    default: []
+    default: ['Bienvenido a Hero for Pets']
   },
+
 });
 
 module.exports = mongoose.model('User', user_schema);
