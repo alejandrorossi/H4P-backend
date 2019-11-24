@@ -47,7 +47,12 @@ var user_schema = new Schema({
   createdDate: { 
     type: Date, 
     default: Date.now 
-  }
+  },
+  notifications: { 
+    type: [String],
+    default: ['Bienvenido a Hero for Pets']
+  },
+
 });
 
 module.exports = mongoose.model('User', user_schema);
