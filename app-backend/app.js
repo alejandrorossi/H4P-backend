@@ -11,7 +11,8 @@ const
   morgan = require('morgan'),//module for view in console web petitions.
   cors = require('cors'),//module for communication between servers.
   session = require("express-session"),//module for session driver
-  bodyParser = require("body-parser");//module for body request parser
+  bodyParser = require("body-parser"),//module for body request parser
+  path = require('path');
 
 // const session_middleware = require("./middleware/session.middleware");
   
@@ -42,8 +43,10 @@ app.use(cors({origin: 'http://localhost:4200'}));
 //Use middleware for session control
 //app.use("/app/publication", session_middleware);
 
+//This folder for this app will be used to store public files
+app.use('/app-backend/public/uploads', express.static(path.join(__dirname, '/public/uploads')));
 
-//ROUTES
+//ROUTES  
 app.use('/app', require('./app.router'));
 
 //Starting the server.

@@ -45,7 +45,7 @@ publicationCtrl.getOtherPublications = async (req, res) => {
     if (p.pet.user._id != id)
       ret.push(p)
   }
-
+  
   res.json(new ApiResponse('Publicaciones encontradas', 200, ret));
 };
 
