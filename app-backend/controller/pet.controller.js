@@ -1,7 +1,8 @@
 const 
   Pet = require('../model/db/pet.db'),
   User = require('../model/db/user.db'),
-  ImageController = require('../controller/image.controller');
+  ImageController = require('../controller/image.controller'),
+  Image = require('../model/db/image.db');
 
 const 
   fs = require('fs'),
@@ -27,17 +28,10 @@ petCtrl.getPet = async (req, res) => {
 petCtrl.createPet = async (req, res) => {
   //Primero se guardan las imagenes
   let images = await guardarImagenes(req);
+  const mascota = JSON.parse(req.body.mascota);
 
-  const pet = new Pet({ 
-    name: req.body.name,
-    age: req.body.age,
-    typeAge: req.body.typeAge,
-    birth: req.body.birth,
-    type: req.body.type,
-    description: req.body.description,
-    user: req.body.user._id,
-    images: images
-  });
+  let pet = new Pet(mascota);
+  pet.images = images;
   
   try{
     await pet.save();
@@ -51,20 +45,24 @@ petCtrl.editPet = async (req, res) => {
   //Primero se guardan las imagenes
   let images = await guardarImagenes(req);
 
-  const 
+  const
     { id } = req.params,
-    pet = {
-      name: req.body.name,
-      age: req.body.age,
-      typeAge: req.body.typeAge,
-      birth: req.body.birth,
-      type: req.body.type,
-      description: req.body.description,
-      images: images
-    };
+    mascota = JSON.parse(req.body.mascota);
+
+  let pet = new Pet(mascota);
+
+  //Esto es para NO perder las imagenes cuando no se cambia
+  //la que ya posee cuando editamos la mascota.
+  const prevPet = await Pet.findById(req.params.id);
+  if(images.length > 0){
+    pet.images = images;
+    ImageController.eliminarImagenes(prevPet.images);
+  }
+  else
+    pet.images = prevPet.images;
 
   try {
-    await Pet.updateOne({ _id: id }, {$set: pet}, {new: true});
+    await Pet.updateOne({ _id: id }, {$set: pet});
   } catch (e) {
     return res.json(new ApiResponse('Error al actualizar', 400, pet, e));
   }
@@ -73,24 +71,15 @@ petCtrl.editPet = async (req, res) => {
   res.json(new ApiResponse('Mascota actualizada', 200, retPet));
 };
 
-//TODO: hay que hacer la eliminacion de las imagenes cambiadas.
 async function guardarImagenes(req) {
-  //Primero se guardan las imagenes
   let images = [];
-  for(let i of req.body.images){
-    i.path = `/app-backend/public/image`;
-    i.name = `${bcrypt.hashSync("imagen").replace(/\//g, "slash")}-${i.title}.${i.extension}`;
-    
-    let dataImage = i.data.replace(`data:image/${i.extension};base64,`, "");
-    fs.writeFileSync(`${process.cwd()}${i.path}/${i.name}`,dataImage,'base64');
-
-    i.data = '';
-    try {
-      let image = await ImageController.saveImage(i);
-      images.push(image.data)
-    } catch (error) {
-      res.json(new ApiResponse('Error al guardar imagenes', 400, {}, e));
-    }
+  
+  try {
+    let res = await ImageController.guardarImagen(req);
+    if(res.data)
+      images.push(res.data);
+  } catch (error) {
+    res.json(new ApiResponse('Error al guardar imagenes', 400, {}, e));
   }
 
   return images;

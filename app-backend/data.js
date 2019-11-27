@@ -71,39 +71,24 @@ data.loadData = async (req, res) => {
     const images = await Image.insertMany(
       [
         {
-          "title": "perro-01",
-          "name": "HASH-perro-01.jpg",
-          "extension": "jpg",
-          "creator": refugiouno,
-          "path": "/app-backend/public/image"
+          "title": "HASH-perro-01.jpg",
+          "path": "app-backend/public/uploads/HASH-perro-01.jpg"
         },
         {
-          "title": "gato",
-          "name": "gato.PNG",
-          "extension": "PNG",
-          "creator": refugiouno,
-          "path": "/app-backend/public/image"
+          "title": "gato.PNG",
+          "path": "app-backend/public/uploads/gato.PNG"
         },
         {
-          "title": "perro-MIB",
-          "name": "perro-MIB.jpg",
-          "extension": "jpg",
-          "creator": refugiodos,
-          "path": "/app-backend/public/image"
+          "title": "perro-MIB.jpg",
+          "path": "app-backend/public/uploads/perro-MIB.jpg"
         },
         {
-          "title": "pajaro-aceventura",
-          "name": "pajaro-aceventura.png",
-          "extension": "png",
-          "creator": refugiodos,
-          "path": "/app-backend/public/image"
+          "title": "pajaro-aceventura.png",
+          "path": "app-backend/public/uploads/pajaro-aceventura.png"
         },
         {
-          "title": "gato-salem",
-          "name": "gato-salem.jpg",
-          "extension": "jpg",
-          "creator": refugiodos,
-          "path": "/app-backend/public/image"
+          "title": "gato-salem.jpg",
+          "path": "app-backend/public/uploads/gato-salem.jpg"
         }
       ]);
 

@@ -12,51 +12,38 @@ imageCtrl.getImage = async (req, res) => {
   const img = await Image.findById(req.params.id)
 
   if(!img) return res.json(new ApiResponse('Imagen no encontrada', 404));
-
-  fs.readFile(`${process.cwd()}${img.path}/${img.name}`,'base64',
-  (err, data)=>{
-    //Si hay un error al leer la imagen.
-    if(err) res.json(new ApiResponse('Imagen no se pudo recuperar', 400, img, err));
-    //Armamos los datos para el frontend.
-    let dataUrl = `data:image/${img.extension};base64, ${data}`;
-    //Los guardamos en un objeto nuevo para enviarlo por el response.
-    let imgResponse = new Img(img, 'base64', dataUrl);
-
-    res.json(new ApiResponse('Imagen recuperada', 200, imgResponse));
-  });
+  
+  res.json(new ApiResponse('Imagen recuperada', 200, img));
 };
 
-imageCtrl.createImage = async (req, res) => {
-  let img = new Image({
-    title: req.body.title,
-    name: req.body.name,
-    creator: req.body.creator,
-    extension: req.body.extension,
-    path: req.body.path
-  });
+imageCtrl.guardarImagen = async (req) => {
+  const file = req.file;
 
-  try{
-    const image = await img.save();
-    res.json(new ApiResponse('Imagen guardada', 201, image));
-  }catch(e){
-    res.json(new ApiResponse('Imagen no se pudo guardar', 400, img, e));
+  if(file) {
+    const img = new Image({
+      title: file.originalname,
+      path:  file.path
+    });
+
+    try{
+      const image = await img.save();
+      return (new ApiResponse('Imagen guardada', 200, image));
+    }catch(e){
+      return (new ApiResponse('Imagen no se pudo guardar', 400, img, e));
+    }
   }
+
+  return (new ApiResponse('No se recibio ninguna imagen', 400, null));
 };
 
-imageCtrl.saveImage = async (imagen) => {
-  let img = new Image({
-    title: imagen.title,
-    name: imagen.name,
-    creator: imagen.creator,
-    extension: imagen.extension,
-    path: imagen.path
-  });
-
-  try{
-    const image = await img.save();
-    return (new ApiResponse('Imagen guardada', 201, image));
-  }catch(e){
-    return (new ApiResponse('Imagen no se pudo guardar', 400, img, e));
+//TODO: eliminar archivo real en servidor.
+imageCtrl.eliminarImagenes = async (imagenes) => {
+  for (imagen of imagenes) {
+    try {
+      await Image.deleteOne({ _id: imagen._id });
+    } catch (e) {
+      console.log(e);
+    }
   }
 };
 
