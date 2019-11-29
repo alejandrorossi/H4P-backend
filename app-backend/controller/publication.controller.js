@@ -170,7 +170,13 @@ publicationCtrl.filtrarPublicaciones = async (req, res) => {
     const mascotas = await Pet.find(queryMascota);
     const definitiva = await Publication.find({ pet: { $in: mascotas }, _id: { $in: prePublicaciones } }).populate('pet');
 
-    res.json(new ApiResponse('Publicaciones encontradas.', 200, definitiva));
+    let ret = [];
+    for (p of definitiva) {
+      if (p.pet.user._id == filtro.idUsuario)
+        ret.push(p)
+    }
+
+    res.json(new ApiResponse('Publicaciones encontradas.', 200, ret));
   } catch (e) {
 
     return res.json(new ApiResponse('Error al filtrar publicaciones.', 400, {}, e));
