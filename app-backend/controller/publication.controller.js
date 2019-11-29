@@ -177,4 +177,30 @@ publicationCtrl.filtrarPublicaciones = async (req, res) => {
   }
 };
 
+publicationCtrl.filtrarPublicacionesAdopt = async (req, res) => {
+  const filtro = req.body.params;
+  let queryMascota = {};
+  let contentQueryPublication = [];
+
+  contentQueryPublication.push({ status: { $eq: "publico" } });
+
+  if (filtro.especie)
+    queryMascota.type = filtro.especie;
+
+  if (filtro.desde) 
+    contentQueryPublication.push({ createdDate: { $gte: new Date(filtro.desde) } });
+  
+
+  try {
+    const prePublicaciones = await Publication.find({ $and: contentQueryPublication });
+    const mascotas = await Pet.find(queryMascota);
+    const definitiva = await Publication.find({ pet: { $in: mascotas }, _id: { $in: prePublicaciones } }).populate('pet');
+
+    res.json(new ApiResponse('Publicaciones encontradas.', 200, definitiva));
+  } catch (e) {
+
+    return res.json(new ApiResponse('Error al filtrar publicaciones.', 400, {}, e));
+  }
+};
+
 module.exports = publicationCtrl;
