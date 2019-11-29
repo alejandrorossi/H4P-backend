@@ -177,9 +177,8 @@ publicationCtrl.filtrarPublicaciones = async (req, res) => {
     }
 
     res.json(new ApiResponse('Publicaciones encontradas.', 200, ret));
-<<<<<<< Updated upstream
-  } catch (e) {
 
+  } catch (e) {
     return res.json(new ApiResponse('Error al filtrar publicaciones.', 400, {}, e));
   }
 };
@@ -204,8 +203,6 @@ publicationCtrl.filtrarPublicacionesAdopt = async (req, res) => {
     const definitiva = await Publication.find({ pet: { $in: mascotas }, _id: { $in: prePublicaciones } }).populate('pet');
 
     res.json(new ApiResponse('Publicaciones encontradas.', 200, definitiva));
-=======
->>>>>>> Stashed changes
   } catch (e) {
 
     return res.json(new ApiResponse('Error al filtrar publicaciones.', 400, {}, e));
