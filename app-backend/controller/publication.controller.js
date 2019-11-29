@@ -168,12 +168,15 @@ publicationCtrl.filtrarPublicaciones = async (req, res) => {
   try {
     const prePublicaciones = await Publication.find({ $and: contentQueryPublication });
     const mascotas = await Pet.find(queryMascota);
-    const definitiva = await Publication.find({ pet: { $in: mascotas }, _id: { $in: prePublicaciones } }).populate('pet');
+    const definitiva = await Publication.find({ pet: { $in: mascotas }, _id: { $in: prePublicaciones } })
+    .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } });
 
     let ret = [];
-    for (p of definitiva) {
-      if (p.pet.user._id == filtro.idUsuario)
-        ret.push(p)
+    if(filtro.idUsuario){
+      for (p of definitiva) {
+        if (p.pet.user._id == filtro.idUsuario)
+          ret.push(p)
+      }
     }
 
     res.json(new ApiResponse('Publicaciones encontradas.', 200, ret));
@@ -204,12 +207,12 @@ publicationCtrl.filtrarPublicacionesAdopt = async (req, res) => {
     if(!definitiva.length)
       definitiva = [definitiva];
 
-      console.log(definitiva)
     let ret = [];
-
-    for (p of definitiva) {
-      if (p.pet.user._id != filtro.idUsuario)
-        ret.push(p)
+    if(filtro.idUsuario){
+      for (p of definitiva) {
+        if (p.pet.user._id != filtro.idUsuario)
+          ret.push(p)
+      }
     }
 
     res.json(new ApiResponse('Publicaciones encontradas.', 200, ret));
