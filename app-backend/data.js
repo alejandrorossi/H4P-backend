@@ -130,7 +130,8 @@ data.loadData = async (req, res) => {
           "type": "Perro",
           "description": "Le gusta hablar mucho",
           "user": refugiodos,
-          "images": [perro_mib]
+          "images": [perro_mib],
+          "createdDate": "2019-11-12T23:14:39.805Z"
         },
         {
           "name": "Loreto",
@@ -139,7 +140,8 @@ data.loadData = async (req, res) => {
           "type": "Pajaro",
           "description": "Canta muy bien",
           "user": refugiodos,
-          "images": [pajaro_aceventura]
+          "images": [pajaro_aceventura],
+          "createdDate": "2019-11-12T23:14:39.805Z"
         },
         {
           "name": "Salem",
@@ -148,7 +150,8 @@ data.loadData = async (req, res) => {
           "type": "Gato",
           "description": "Buen amigo de brujas",
           "user": refugiodos,
-          "images": [gato_salem]
+          "images": [gato_salem],
+          "createdDate": "2019-11-12T23:14:39.805Z"
         },
       ]);
 
