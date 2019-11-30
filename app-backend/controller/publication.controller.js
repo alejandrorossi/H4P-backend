@@ -152,7 +152,7 @@ publicationCtrl.filtrarPublicaciones = async (req, res) => {
   if (filtro.texto)
     queryMascota.$or = [
       { description: { $regex: filtro.texto, $options: 'i' } },
-      { name: /.*"b".*/ }
+      { name: { $regex: filtro.texto, $options: 'i' } }
     ];
 
   if (filtro.desde && !filtro.hasta) {
