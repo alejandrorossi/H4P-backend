@@ -26,9 +26,7 @@ async function requestSolicitudes(query, req, res) {
   const { id } = req.params;
   let ret = [];
 
-  const publicaciones = await Publication.find(query)
-  .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
-  .populate({ path: 'applications', model: 'Application', populate: { path: 'user', model: 'User' } });
+  const publicaciones = await Publication.find(query);
 
   publicaciones.forEach(function (p, indice, array) {
     if (p.pet.user._id == id)
@@ -61,7 +59,7 @@ solicitudCtrl.putAceptarSolicitante = async (req, res) => {
   const retPublication = await Publication.findById(idPublicacion)
     .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
     .populate({ path: 'applications', model: 'Application', populate: { path: 'user', model: 'User' } });
-
+  
   res.json(new ApiResponse('Usuario aceptado', 200, retPublication));
 };
 
@@ -84,7 +82,7 @@ solicitudCtrl.putRechazarSolicitante = async (req, res) => {
   const retPublication = await Publication.findById(idPublicacion)
     .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
     .populate({ path: 'applications', model: 'Application', populate: { path: 'user', model: 'User' } });
-
+  
   res.json(new ApiResponse('Usuario rechazado', 200, retPublication));
 };
 

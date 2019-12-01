@@ -26,4 +26,14 @@ var publication_schema = new Schema({
   } 
 });
 
+var 
+  populatePet = { path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } },
+  populateApplications = { path: 'applications', model: 'Application', populate: { path: 'user', model: 'User' } };
+
+
+publication_schema.pre('find', function() {
+  this.populate(populatePet);
+  this.populate(populateApplications);
+});
+
 module.exports = mongoose.model('Publication', publication_schema);

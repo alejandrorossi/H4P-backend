@@ -11,8 +11,8 @@ const publicationCtrl = {}
 //Get
 publicationCtrl.getPublications = async (req, res) => {
   const publications = await Publication.find({ status: { $ne: 'eliminado' } })
-    .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
-    .populate({ path: 'applications', model: 'Application', populate: { path: 'user', model: 'User' } });
+    // .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
+    // .populate({ path: 'applications', model: 'Application', populate: { path: 'user', model: 'User' } });
 
   res.json(new ApiResponse('Publicaciones encontradas', 200, publications));
 };
@@ -21,8 +21,8 @@ publicationCtrl.getUserPublications = async (req, res) => {
   const { id } = req.params;
 
   const publications = await Publication.find({ status: { $nin: 'eliminado' } })
-    .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
-    .populate({ path: 'applications', model: 'Application', populate: { path: 'user', model: 'User' } });
+    // .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
+    // .populate({ path: 'applications', model: 'Application', populate: { path: 'user', model: 'User' } });
 
   let ret = [];
   for (p of publications) {
@@ -37,8 +37,8 @@ publicationCtrl.getOtherPublications = async (req, res) => {
   const { id } = req.params;
 
   const publications = await Publication.find({ status: { $nin: ['eliminado', 'privado'] } })
-    .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
-    .populate({ path: 'applications', model: 'Application', populate: { path: 'user', model: 'User' } });
+    // .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
+    // .populate({ path: 'applications', model: 'Application', populate: { path: 'user', model: 'User' } });
 
   let ret = [];
   for (p of publications) {
@@ -54,7 +54,7 @@ publicationCtrl.getPublication = async (req, res) => {
     .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
     .populate({ path: 'applications', model: 'Application', populate: { path: 'user', model: 'User' } });
 
-  if (!publication) return res.json(new ApiResponse('Mascota no encontrada', 404, publication));
+  if (!publication) return res.json(new ApiResponse('Publicacion no encontrada', 404, publication));
 
   res.json(new ApiResponse('Publicacion encontrada', 200, publication));
 }
@@ -169,7 +169,7 @@ publicationCtrl.filtrarPublicaciones = async (req, res) => {
     const prePublicaciones = await Publication.find({ $and: contentQueryPublication });
     const mascotas = await Pet.find(queryMascota);
     const definitiva = await Publication.find({ pet: { $in: mascotas }, _id: { $in: prePublicaciones } })
-    .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } });
+    // .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } });
 
     let ret = [];
     if(filtro.idUsuario){
@@ -202,7 +202,7 @@ publicationCtrl.filtrarPublicacionesAdopt = async (req, res) => {
     const prePublicaciones = await Publication.find({ $and: contentQueryPublication });
     const mascotas = await Pet.find(queryMascota);
     const definitiva = await Publication.find({ pet: { $in: mascotas }, _id: { $in: prePublicaciones } })
-    .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
+    // .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
  
     if(!definitiva.length)
       definitiva = [definitiva];
