@@ -27,7 +27,7 @@ router.post('/login', userCtrl.getUserForUsernamePassword);
 
 // PET
 router.get('/pet', petCtrl.getPets);
-router.route('/pet').post(multer.single('image') , petCtrl.createPet);
+router.route('/pet').post(multer.single('image'), petCtrl.createPet);
 router.get('/pet/:id', petCtrl.getPet);
 router.route('/pet/:id').put(multer.single('image'), petCtrl.editPet);
 router.delete('/pet/:id', petCtrl.deletePet);
@@ -36,7 +36,7 @@ router.delete('/pet/:id', petCtrl.deletePet);
 router.get('/publication', publicationCtrl.getPublications);
 router.get('/publication/user/:id', publicationCtrl.getUserPublications);
 router.get('/publication/other/:id', publicationCtrl.getOtherPublications);
-router.post('/publication' , publicationCtrl.createPublication);
+router.post('/publication', publicationCtrl.createPublication);
 router.get('/publication/:id', publicationCtrl.getPublication);
 router.put('/publication/:id', publicationCtrl.editPublication);
 router.delete('/publication/:id', publicationCtrl.deletePublication);
