@@ -217,7 +217,7 @@ data.loadData = async (req, res) => {
           "description": "Buen amigo de brujas",
           "user": refugiodos,
           "images": [gato_salem],
-          "createdDate": "2019-11-12T23:14:39.805Z"
+          "createdDate": "2019-09-10T23:14:39.805Z"
         },
         {
           "name": "Ramoncito",
@@ -227,7 +227,7 @@ data.loadData = async (req, res) => {
           "description": "Un poco malhumorado",
           "user": refugiodos,
           "images": [don_ramon],
-          "createdDate": "2019-11-12T23:14:39.805Z"
+          "createdDate": "2019-09-10T23:14:39.805Z"
         },
         {
           "name": "ETelbino",
@@ -287,7 +287,7 @@ data.loadData = async (req, res) => {
           "description": "Bastante oloroso, le gusta comer bichos",
           "user": refugiouno,
           "images": [pumba],
-          "createdDate": "2019-11-12T23:14:39.805Z"
+          "createdDate": "2019-05-01T23:14:39.805Z"
         },
         {
           "name": "Timon",
@@ -297,7 +297,7 @@ data.loadData = async (req, res) => {
           "description": "Su lema es HaKuNa MaTaTa",
           "user": refugiouno,
           "images": [timon],
-          "createdDate": "2019-11-12T23:14:39.805Z"
+          "createdDate": "2019-05-01T23:14:39.805Z"
         }
       ]);
 
