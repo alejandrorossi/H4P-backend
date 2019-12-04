@@ -223,7 +223,7 @@ data.loadData = async (req, res) => {
           "name": "Ramoncito",
           "age": 8,
           "birth": "2019-01-01T00:00:00.000Z",
-          "type": "Otro",
+          "type": "Otros",
           "description": "Un poco malhumorado",
           "user": refugiodos,
           "images": [don_ramon],
@@ -233,7 +233,7 @@ data.loadData = async (req, res) => {
           "name": "ETelbino",
           "age": 2,
           "birth": "2019-01-01T00:00:00.000Z",
-          "type": "Otro",
+          "type": "Otros",
           "description": "No sabe volver a casa solo",
           "user": refugiodos,
           "images": [et],
@@ -263,7 +263,7 @@ data.loadData = async (req, res) => {
           "name": "Grem",
           "age": 1,
           "birth": "2019-01-01T00:00:00.000Z",
-          "type": "Otro",
+          "type": "Otros",
           "description": "Cuidado con mojarlo, no es buena idea",
           "user": refugiodos,
           "images": [gremlin_jopo],
@@ -283,7 +283,7 @@ data.loadData = async (req, res) => {
           "name": "Pumba",
           "age": 5,
           "birth": "2019-01-01T00:00:00.000Z",
-          "type": "Otro",
+          "type": "Otros",
           "description": "Bastante oloroso, le gusta comer bichos",
           "user": refugiouno,
           "images": [pumba],
@@ -293,7 +293,7 @@ data.loadData = async (req, res) => {
           "name": "Timon",
           "age": 5,
           "birth": "2019-01-01T00:00:00.000Z",
-          "type": "Otro",
+          "type": "Otros",
           "description": "Su lema es HaKuNa MaTaTa",
           "user": refugiouno,
           "images": [timon],
@@ -335,6 +335,10 @@ data.loadData = async (req, res) => {
         {
           "user": arossi,
           "status": "pendiente"
+        },
+        {
+          "user": arossi,
+          "status": "pendiente"
         }
       ]
     );
@@ -345,7 +349,8 @@ data.loadData = async (req, res) => {
       appl_postulante = applications[0],
       appl_elcartero = applications[1],
       appl_epericon = applications[2],
-      appl_arossi = applications[3];
+      appl_arossi_01 = applications[3],
+      appl_arossi_02 = applications[4];
 
     const publications = await Publication.insertMany(
       [
@@ -373,7 +378,7 @@ data.loadData = async (req, res) => {
         {
           "pet": ramoncito,
           "status": "publico",
-          "applications": [appl_postulante, appl_elcartero, appl_arossi]
+          "applications": [appl_postulante, appl_elcartero, appl_arossi_01]
         },
         {
           "pet": etelbino,
@@ -386,7 +391,7 @@ data.loadData = async (req, res) => {
         {
           "pet": conteston,
           "status": "publico",
-          "applications": [appl_arossi, appl_epericon]
+          "applications": [appl_arossi_02, appl_epericon]
         },
         {
           "pet": grem,
