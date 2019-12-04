@@ -166,20 +166,18 @@ publicationCtrl.filtrarPublicaciones = async (req, res) => {
     ];
 
   if (filtro.desde && !filtro.hasta) {
-    contentQueryPublication.push({ createdDate: { $gte: new Date(filtro.desde) } });
+    queryMascota.createdDate = { $gte: new Date(filtro.desde) };
   } else if (filtro.desde && filtro.hasta) {
-    contentQueryPublication.push({
-      createdDate: { $gte: new Date(filtro.desde), $lt: new Date(filtro.hasta) }
-    });
+    
+      queryMascota.createdDate = { $gte: new Date(filtro.desde), $lt: new Date(filtro.hasta) };
   } else if (filtro.hasta && !filtro.desde) {
-    contentQueryPublication.push({ createdDate: { $lt: new Date(filtro.hasta) } });
+    queryMascota.createdDate = { $lt: new Date(filtro.hasta) } ;
   }
 
   try {
     const prePublicaciones = await Publication.find({ $and: contentQueryPublication });
     const mascotas = await Pet.find(queryMascota);
     const definitiva = await Publication.find({ pet: { $in: mascotas }, _id: { $in: prePublicaciones } })
-    // .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } });
 
     let ret = [];
     if (filtro.idUsuario) {
@@ -200,19 +198,18 @@ publicationCtrl.filtrarPublicacionesAdopt = async (req, res) => {
 
   const filtro = req.body.params;
   let queryMascota = {};
-  let contentQueryPublication = [{ status: { $eq: "publico" } },];
 
   if (filtro.especie)
     queryMascota.type = filtro.especie;
 
   if (filtro.desde)
-    contentQueryPublication.push({ createdDate: { $gte: new Date(filtro.desde) } });
+  queryMascota.createdDate = { $gte: new Date(filtro.desde) }
+
 
   try {
-    const prePublicaciones = await Publication.find({ $and: contentQueryPublication });
+    const prePublicaciones = await Publication.find({ $and: [{ status: { $eq: "publico" } }]});
     const mascotas = await Pet.find(queryMascota);
     const definitiva = await Publication.find({ pet: { $in: mascotas }, _id: { $in: prePublicaciones } })
-    // .populate({ path: 'pet', model: 'Pet', populate: { path: 'user', model: 'User' } })
 
     if (!definitiva.length)
       definitiva = [definitiva];
