@@ -1,0 +1,42 @@
+version: '3'
+services:
+  app:
+    container_name: app-backend-h4p
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports: 
+      - "8080:8080"
+    volumes: 
+    #Esto nos permite sincronizar la carpeta de trabajo
+    #durante el desarrollo de la aplicacion
+      - .:/opt/app
+      - /opt/app/node_modules
+    networks:
+      - app-network  
+      
+  db:
+    container_name: mongo-h4p
+    image: mongo
+    ports: 
+      - "27017:27017"
+    networks:
+      - app-network  
+
+  mongo-express:
+    container_name: mongo-express-h4p
+    image: "mongo-express:latest"
+    depends_on: 
+      - db
+    environment: 
+      - ME_CONFIG_MONGODB_SERVER=mongo-h4p
+    ports:
+      - "8081:8081"
+    networks:
+      - app-network  
+
+networks:
+  app-network:
+    driver: bridge

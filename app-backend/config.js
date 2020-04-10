@@ -1,4 +1,4 @@
 module.exports = {
-  'database' : 'mongodb://localhost/app-h4p',
+  'database' : 'mongodb://db:27017/app-h4p',
   'server-port': 8080
 };

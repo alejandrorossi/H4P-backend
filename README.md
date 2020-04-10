@@ -9,16 +9,16 @@ Repositorio backend para un aplicativo dedicado a la mejora de adopción de masc
 
 > Pararse en la carpeta principal **h4p-backend** desde la consola.
 
-> **Importante!** Tener npm instalado, el sistema de gestión de paquetes por defecto para Node.js
+> **Importante!** Tener Docker instalado!
 
-- Instalar las dependencias necesarias:
+- Crear imagen necesaria para el servidor:
 ~~~
-$> npm install
+$> docker-compose build
 ~~~
 
-- Levantar el servidor:
+- Levantar los contenedores necesarios:
 ~~~
-$> npm start
+$> docker-compose up
 ~~~
 
 
