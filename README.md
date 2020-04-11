@@ -9,9 +9,7 @@ Repositorio backend para un aplicativo dedicado a la mejora de adopción de masc
 
 > Pararse en la carpeta principal **h4p-backend** desde la consola.
 
-> **Importante!** Tener instalado:   
-        Docker Engine (https://docs.docker.com/engine/install)
-        Docker Compose (https://docs.docker.com/compose/install)
+> **Importante!** Tener instalado: [Docker Engine](https://docs.docker.com/engine/install), [Docker Compose](https://docs.docker.com/compose/install)
  
 
 - Crear imagen necesaria para el servidor:
